@@ -100,8 +100,19 @@
   padding: 0;
 }
 
+.form .btn {
+  color: var(--white);
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+}
+
 .btn:hover {
   box-shadow: var(--shadow);
+  background-color: var(--dark);
+}
+
+.btn:active {
+  box-shadow: none;
 }
 
 .form .terms {
