@@ -19,7 +19,8 @@
   font-size: 1rem;
 }
 
-.container {
+.login-container,
+.register-container {
   height: 100vh;
   display: flex;
   align-items: center;
@@ -92,6 +93,11 @@
   padding: 1rem;
 }
 
+form p {
+  text-align: center;
+  font-size: 5rem;
+}
+
 .form .btn {
   background-color: var(--blue);
   border: none;
@@ -143,10 +149,29 @@
   .form h1 .title {
     font-size: 2.5rem;
   }
+  .login-container .rain,
+  .register-container .rain {
+    display: none;
+  }
+  .login-container,
+  .register-container {
+    background-image: url(/assets/images/background.jpg);
+    background-size: cover;
+    color: var(--white);
+  }
+  .form {
+    height: 75%;
+    margin: 5rem;
+    background-color: var(--white);
+    padding: 3rem;
+    border-radius: var(--radius);
+    color: var(--dark);
+    position: relative;
+  }
+  .login-container .form {
+    height: 50%;
+  }
 }
 
 @media (max-width: 500px) {
-  html {
-    font-size: 75%;
-  }
 }
