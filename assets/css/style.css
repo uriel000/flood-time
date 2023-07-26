@@ -167,6 +167,7 @@ form p {
     border-radius: var(--radius);
     color: var(--dark);
     position: relative;
+    opacity: 0.95;
   }
   .login-container .form {
     height: 50%;
