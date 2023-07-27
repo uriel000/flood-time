@@ -14,7 +14,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  outline: dashed firebrick;
+  /* outline: dashed firebrick; */
   font-family: var(--second);
   font-size: 1rem;
 }
