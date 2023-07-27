@@ -14,7 +14,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* outline: dashed firebrick; */
+  outline: dashed firebrick;
   font-family: var(--second);
   font-size: 1rem;
 }
@@ -56,7 +56,8 @@
   overflow: hidden;
 }
 
-.title {
+.title,
+.logo {
   font-family: var(--first);
 }
 
@@ -185,7 +186,7 @@ form p {
   }
   .login-container,
   .register-container {
-    background-image: url(/assets/images/background.jpg);
+    background-image: url(../images/background.jpg);
     background-size: cover;
     color: var(--white);
   }
