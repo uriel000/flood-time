@@ -164,6 +164,42 @@ form p {
 }
 
 /* Home page */
+nav {
+  background-color: none !important;
+  border-bottom: #0e1735 solid 1px;
+}
+
+.navbar {
+  height: 10vh;
+}
+
+.container-fluid {
+  display: flex;
+  align-items: center;
+  margin-top: 0;
+  justify-content: space-between;
+  max-width: 1200px;
+}
+nav .nav-item a {
+  text-decoration: none;
+  color: var(--dark);
+  margin-left: 2.5rem;
+  font-size: 1.4rem !important;
+}
+
+nav .logo {
+  font-size: 2rem;
+  color: var(--blue);
+}
+
+nav .logo:hover {
+  color: var(--dark);
+}
+
+nav .nav-item a:hover {
+  text-decoration: underline;
+  color: #00a4c6;
+}
 
 @media (max-width: 991px) {
   html {
