@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `users` (
   `user_id` int(11) NOT NULL,
   `user_name` varchar(50) NOT NULL,
-  `user_email` int(50) NOT NULL,
+  `user_email` varchar(50) NOT NULL,
   `user_password` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -39,7 +39,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `user_name`, `user_email`, `user_password`) VALUES
-(1, 'Jesriel Ledesma', 0, '09954c15998d7e270769893321fcd82e');
+(1, 'Jesriel Ledesma', 'jesriel@gmail.com', '09954c15998d7e270769893321fcd82e');
 
 --
 -- Indexes for dumped tables
