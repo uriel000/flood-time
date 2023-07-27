@@ -87,7 +87,7 @@ if(isset($_POST['submit'])){
             placeholder="Confirm your password"
             required
           />
-          <input type="submit" value="Login" name="submit" class="btn" />
+          <input type="submit" value="Register" name="submit" class="btn" />
         </form>
         <p>Already have an account? <a href="login.php">Login</a></p>
         <p class="terms">
