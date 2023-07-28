@@ -264,7 +264,9 @@ nav .nav-item a:hover {
 }
 
 .home-container .map p,
-.home-container .map p span i {
+.home-container .map p span i,
+.charts p span i,
+.charts p {
   text-align: center;
   font-size: 1.5rem;
 }
@@ -425,6 +427,56 @@ nav .nav-item a:hover {
 .footer p {
   margin-bottom: 0;
 }
+
+.charts {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+  border-radius: 10px;
+  margin-top: 3rem;
+  flex-direction: column;
+}
+
+.charts .title {
+  font-size: 2rem;
+}
+
+.charts p span i {
+  margin-right: 1rem;
+}
+
+.charts .charts-card {
+  background-color: var(--white);
+  margin-bottom: 20px;
+  padding: 25px;
+  -webkit-column-break-inside: avoid;
+  border: 1px solid var(--dark);
+  border-radius: 5px;
+  box-shadow: var(--shadow);
+  width: 50rem;
+}
+
+.charts .charts-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: bold;
+}
+.street-form select {
+  width: 30rem;
+  height: 3.2rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  font-size: 1.2rem;
+}
+
+#chart {
+  width: 100%;
+}
+
 @media (max-width: 991px) {
   html {
     font-size: 70%;
@@ -504,4 +556,7 @@ nav .nav-item a:hover {
 }
 
 @media (max-width: 500px) {
+  .charts .charts-card {
+    width: 40rem;
+  }
 }
