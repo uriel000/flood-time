@@ -168,6 +168,7 @@ form p {
 nav {
   border-bottom: #0e1735 solid 1px;
   height: 10vh;
+  z-index: 1000;
 }
 
 .container-fluid {
@@ -211,7 +212,7 @@ nav .nav-item a:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 2rem;
+  /* margin-top: 2rem; */
   /* background-color: #00a4c6; */
   width: 20rem;
 }
@@ -223,14 +224,14 @@ nav .nav-item a:hover {
 }
 .weather-data .temperature p {
   text-align: center;
-  font-size: 2rem;
+  font-size: 3rem;
 }
 .weather-data .temperature .top-temp {
   display: flex;
   padding: 0;
 }
 .weather-data .temperature .temp {
-  font-size: 10rem;
+  font-size: 11rem;
   margin-bottom: 0;
 }
 
@@ -250,7 +251,8 @@ nav .nav-item a:hover {
   width: 100%;
 }
 
-.weather-data .extra-temp p {
+.weather-data .extra-temp p,
+.weather-data .extra-temp p span {
   font-size: 1.5rem;
 }
 
@@ -428,6 +430,10 @@ nav .nav-item a:hover {
   margin-bottom: 0;
 }
 
+.home-container {
+  margin-top: 4rem;
+}
+
 .charts {
   width: 100%;
   display: flex;
@@ -435,12 +441,11 @@ nav .nav-item a:hover {
   justify-content: center;
   height: 80vh;
   border-radius: 10px;
-  margin-top: 3rem;
   flex-direction: column;
 }
 
 .charts .title {
-  font-size: 2rem;
+  font-size: 4rem;
 }
 
 .charts p span i {
