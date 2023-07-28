@@ -479,6 +479,60 @@ nav .nav-item a:hover {
   border-radius: 20px;
 }
 
+.map-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.map-container .map h1 {
+  text-align: center;
+  margin: 2rem 0;
+}
+.map-container .map iframe {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 2rem;
+}
+
+.map-container .streets {
+  /* background-color: #fff7f7; */
+  width: 100%;
+  padding: 1rem;
+}
+
+.map-container .streets .stitle {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.map-container .streets .panel h1 {
+  background-color: #f0f8ff;
+}
+
+.map-container .streets form {
+  display: flex;
+  justify-content: space-evenly;
+  /* flex-wrap: wrap; */
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  border-bottom: #0e1735 1px dashed;
+  margin-bottom: 15px;
+}
+
+.checkbox-container input[type="checkbox"] {
+  margin-right: 5px;
+}
+
 #chart {
   width: 100%;
 }
@@ -558,6 +612,9 @@ nav .nav-item a:hover {
   }
   .map iframe {
     width: 100%;
+  }
+  .map-container .streets form {
+    flex-direction: column;
   }
 }
 

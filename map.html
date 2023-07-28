@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Map</title>
+
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="icon" type="image/x-icon" href="assets/images/icon.png" />
+
+    <!-- Bootstrap link -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+
+    <!-- font awesome cdn link -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg">
+      <div class="container-fluid">
+        <a class="navbar-brand logo" href="home.html">Flood-Time</a>
+        <div class="nav-links">
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="home.html"
+                  >Home</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="flood.html">Flood</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="weather.html">Weather</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="map.html">Map</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="about.html">About</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="map-container">
+      <div class="map">
+        <h1 class="title">List of streets in Barangay 630</h1>
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3861.02002177156!2d121.00878241120365!3d14.597934985829243!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c9dd7068a21b%3A0x9644f1271fa22dc4!2sBrgy.%20630%2C%20Santa%20Mesa%2C%20Manila%2C%20Metro%20Manila!5e0!3m2!1sen!2sph!4v1690538514665!5m2!1sen!2sph"
+          width="800"
+          height="600"
+          style="border: 0"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+      <div class="streets">
+        <h1 class="stitle">List of streets in Barangay 630</h1>
+        <form action="">
+          <div class="panel">
+            <h1>A</h1>
+            <div class="checkbox-container">
+              <input type="checkbox" name="anonasew" id="anonasew" />
+              <label for="anonasew">Anonas Extension West (pedestrian)</label>
+            </div>
+            <div class="checkbox-container">
+              <input type="checkbox" name="anonas" id="anonas" />
+              <label for="anonas">Anonas Street (tertiary)</label>
+            </div>
+            <h1>C</h1>
+            <div class="checkbox-container">
+              <input type="checkbox" name="arellano" id="arellano" />
+              <label for="arellano">C. Arellano Street</label>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h1>F</h1>
+            <div class="checkbox-container">
+              <input type="checkbox" name="fortuna" id="fortuna" />
+              <label for="fortuna">Fortuna Street</label>
+            </div>
+            <div class="checkbox-container">
+              <input type="checkbox" name="Panganiban" id="Panganiban" />
+              <label for="Panganiban">J. H. Panganiban Street</label>
+            </div>
+            <div class="checkbox-container">
+              <input type="checkbox" name="Magsaysay" id="Magsaysay" />
+              <label for="Magsaysay">Magsaysay Boulevard (primary)</label>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h1>R</h1>
+            <div class="checkbox-container">
+              <input type="checkbox" name="road1" id="road1" />
+              <label for="road1">Road 1</label>
+            </div>
+            <div class="checkbox-container">
+              <input type="checkbox" name="road2" id="road2" />
+              <label for="road2">Road 2</label>
+            </div>
+            <div class="checkbox-container">
+              <input type="checkbox" name="road3" id="road3" />
+              <label for="road3">Road 3</label>
+            </div>
+            <div class="checkbox-container">
+              <input type="checkbox" name="road5" id="road5" />
+              <label for="road5">Road 5</label>
+            </div>
+            <div class="checkbox-container">
+              <input type="checkbox" name="road7" id="road7" />
+              <label for="road7">Road 7</label>
+            </div>
+            <div class="checkbox-container">
+              <input type="checkbox" name="road9" id="road9" />
+              <label for="road9">Road 9</label>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="logo">Flood-Time</div>
+      <div class="links">
+        <p>Pages</p>
+        <a href="home.html">Home</a>
+        <a href="flood.html">Flood</a>
+        <a href="login.php">Login</a>
+        <a href="register.php">Register</a>
+      </div>
+      <div class="socials">
+        <p>Socials</p>
+        <div class="social">
+          <i class="fa-brands fa-facebook"></i>
+          <a href="https://www.facebook.com/" target="_blank">Facebook</a>
+        </div>
+        <div class="social">
+          <i class="fa-brands fa-instagram"></i>
+          <a href="https://www.instagram.com" target="_blank">Instagram</a>
+        </div>
+        <div class="social">
+          <i class="fa-brands fa-twitter"></i>
+          <a href="https://www.Twitter.com" target="_blank">Twitter</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap javascript link -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
