@@ -368,6 +368,63 @@ nav .nav-item a:hover {
   font-weight: bold;
 }
 
+.footer {
+  margin-top: 5rem;
+  height: 25vh;
+  background-color: rgb(251, 248, 248);
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.footer .logo {
+  font-size: 2rem;
+}
+
+.footer .links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer .links a {
+  text-decoration: none;
+  color: var(--dark);
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.footer .links a:hover {
+  color: var(--blue);
+  text-decoration: underline;
+}
+
+.footer .socials .social {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.footer .socials .social:hover {
+  color: #00a4c6;
+  border-bottom: #0e1735 1px solid;
+}
+
+.footer .socials .social i {
+  font-size: 1.5rem;
+}
+
+.footer .socials .social a {
+  text-decoration: none;
+  color: var(--dark);
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.footer p {
+  margin-bottom: 0;
+}
 @media (max-width: 991px) {
   html {
     font-size: 70%;
