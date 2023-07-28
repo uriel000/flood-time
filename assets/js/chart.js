@@ -50,6 +50,53 @@ var chart = new ApexCharts(document.querySelector("#chart"), options);
 
 chart.render();
 
+var options = {
+  series: [
+    {
+      data: [60, 150, 300, 400],
+    },
+  ],
+  chart: {
+    height: 350,
+    type: "bar",
+    events: {
+      click: function (chart, w, e) {
+        // console.log(chart, w, e)
+      },
+    },
+  },
+  colors: ["#f0f0c9", "#f2bb05", "#124e78", "#d74e09"],
+  plotOptions: {
+    bar: {
+      columnWidth: "50%",
+      distributed: true,
+    },
+  },
+  dataLabels: {
+    enabled: true,
+  },
+  legend: {
+    show: false,
+  },
+  xaxis: {
+    categories: [
+      ["Low-Level", "Flood"],
+      ["Medium-level", "Flood"],
+      ["High-level", "Flood"],
+      ["Extreme-level", "Flood"],
+    ],
+    labels: {
+      style: {
+        colors: ["black"],
+        fontSize: "12px",
+      },
+    },
+  },
+};
+
+var chart = new ApexCharts(document.querySelector("#chart2"), options);
+chart.render();
+
 var today = new Date();
 
 // Get the current date in various formats
