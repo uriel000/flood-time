@@ -177,7 +177,8 @@ form p {
 nav {
   border-bottom: #0e1735 solid 1px;
   height: 10vh;
-  z-index: 1000;
+  z-index: 10000;
+  background-color: var(--white);
 }
 
 .container-fluid {
@@ -226,6 +227,7 @@ nav ul li:last-of-type a:hover {
   max-width: 1200px;
   margin: 0 auto;
   flex-direction: column;
+  margin-top: 10rem !important;
 }
 
 .weather-data {
@@ -299,6 +301,11 @@ nav ul li:last-of-type a:hover {
 
 .home-container .map p span i {
   margin-right: 10px;
+}
+.flood-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 10rem !important;
 }
 
 .flood-information {
@@ -455,8 +462,8 @@ nav ul li:last-of-type a:hover {
   font-size: 1.2rem;
 }
 
-.home-container {
-  margin-top: 4rem;
+.flood-container {
+  margin-top: 3rem;
 }
 
 .charts {
@@ -528,6 +535,7 @@ nav ul li:last-of-type a:hover {
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   margin-bottom: 2rem;
+  width: 80%;
 }
 
 .map-container .streets {
@@ -539,12 +547,16 @@ nav ul li:last-of-type a:hover {
 .about-container {
   max-width: 1000px;
   margin: 0 auto;
-  padding: 0 2rem;
+  margin-top: 10rem;
+  width: 80%;
 }
 
 .about-container h1 {
-  margin-top: 2rem;
   text-align: center;
+}
+
+.map-container {
+  margin-top: 8rem !important;
 }
 
 .map-container .streets .stitle {
@@ -709,7 +721,7 @@ nav ul li:last-of-type a:hover {
   .collapse {
     position: absolute;
     left: 0;
-    margin-top: 6rem;
+    margin-top: 5rem;
     background-color: var(--white);
     width: 100%;
   }
