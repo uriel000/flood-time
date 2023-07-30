@@ -492,7 +492,7 @@ nav ul li:last-of-type a:hover {
   border: 1px solid var(--dark);
   border-radius: 5px;
   box-shadow: var(--shadow);
-  width: 50rem;
+  width: 80%;
 }
 
 .charts .charts-title {

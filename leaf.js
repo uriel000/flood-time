@@ -233,6 +233,7 @@ road5Checkbox.addEventListener("change", function () {
     map.fitBounds(polyline2.getBounds());
   } else {
     polyline2.removeFrom(map);
+    map.fitBounds(polyline.getBounds());
   }
 });
 
@@ -242,6 +243,7 @@ anonasExWestCheckbox.addEventListener("change", function () {
     map.fitBounds(polyline3.getBounds());
   } else {
     polyline3.removeFrom(map);
+    map.fitBounds(polyline.getBounds());
   }
 });
 
@@ -251,6 +253,7 @@ anonasCheckbox.addEventListener("change", function () {
     map.fitBounds(polyline4.getBounds());
   } else {
     polyline4.removeFrom(map);
+    map.fitBounds(polyline.getBounds());
   }
 });
 
@@ -260,6 +263,7 @@ arellanoCheckbox.addEventListener("change", function () {
     map.fitBounds(polyline5.getBounds());
   } else {
     polyline5.removeFrom(map);
+    map.fitBounds(polyline.getBounds());
   }
 });
 
@@ -269,6 +273,7 @@ fortunaCheckbox.addEventListener("change", function () {
     map.fitBounds(polyline6.getBounds());
   } else {
     polyline6.removeFrom(map);
+    map.fitBounds(polyline.getBounds());
   }
 });
 
@@ -278,6 +283,7 @@ PanganibanCheckbox.addEventListener("change", function () {
     map.fitBounds(polyline7.getBounds());
   } else {
     polyline7.removeFrom(map);
+    map.fitBounds(polyline.getBounds());
   }
 });
 
@@ -287,6 +293,7 @@ MagsaysayCheckbox.addEventListener("change", function () {
     map.fitBounds(polyline8.getBounds());
   } else {
     polyline8.removeFrom(map);
+    map.fitBounds(polyline.getBounds());
   }
 });
 
@@ -296,6 +303,7 @@ road1Checkbox.addEventListener("change", function () {
     map.fitBounds(polyline9.getBounds());
   } else {
     polyline9.removeFrom(map);
+    map.fitBounds(polyline.getBounds());
   }
 });
 
@@ -305,6 +313,7 @@ road2Checkbox.addEventListener("change", function () {
     map.fitBounds(polyline10.getBounds());
   } else {
     polyline10.removeFrom(map);
+    map.fitBounds(polyline.getBounds());
   }
 });
 
@@ -314,6 +323,7 @@ road3Checkbox.addEventListener("change", function () {
     map.fitBounds(polyline11.getBounds());
   } else {
     polyline11.removeFrom(map);
+    map.fitBounds(polyline.getBounds());
   }
 });
 
@@ -323,6 +333,7 @@ road7Checkbox.addEventListener("change", function () {
     map.fitBounds(polyline12.getBounds());
   } else {
     polyline12.removeFrom(map);
+    map.fitBounds(polyline.getBounds());
   }
 });
 
@@ -332,6 +343,7 @@ road9Checkbox.addEventListener("change", function () {
     map.fitBounds(polyline13.getBounds());
   } else {
     polyline13.removeFrom(map);
+    map.fitBounds(polyline.getBounds());
   }
 });
 
@@ -341,6 +353,7 @@ JoseCheckbox.addEventListener("change", function () {
     map.fitBounds(polyline14.getBounds());
   } else {
     polyline14.removeFrom(map);
+    map.fitBounds(polyline.getBounds());
   }
 });
 
@@ -350,5 +363,6 @@ araulloCheckbox.addEventListener("change", function () {
     map.fitBounds(polyline15.getBounds());
   } else {
     polyline15.removeFrom(map);
+    map.fitBounds(polyline.getBounds());
   }
 });

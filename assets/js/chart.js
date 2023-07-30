@@ -12,7 +12,7 @@ var options = {
   series: [
     {
       name: "cm",
-      data: [100, 110, 90, 120, 140, 135, 160, 150, 170, 180, 190, 200],
+      data: [0, 10, 11, 25, 30, 37, 48, 20, 56, 45, 70, 127],
     },
   ],
   colors: ["#FF0080"],
@@ -53,11 +53,11 @@ chart.render();
 var options = {
   series: [
     {
-      data: [60, 150, 300, 400],
+      data: [20.32, 25.4, 33.02, 48.26, 66.04, 93.98, 114.3, 152.4, 240],
     },
   ],
   chart: {
-    height: 350,
+    height: 400,
     type: "bar",
     events: {
       click: function (chart, w, e) {
@@ -65,10 +65,21 @@ var options = {
       },
     },
   },
-  colors: ["#f0f0c9", "#f2bb05", "#124e78", "#d74e09"],
+  colors: [
+    "#E0E0AD",
+    "#BCBC85",
+    "#f2bb05",
+    "#C49D1A",
+    "#124e78",
+    "#194563",
+    "#1F3645",
+    "#d74e09",
+    "#AF4C1B",
+    "#904925",
+  ],
   plotOptions: {
     bar: {
-      columnWidth: "50%",
+      columnWidth: "80%",
       distributed: true,
     },
   },
@@ -80,10 +91,15 @@ var options = {
   },
   xaxis: {
     categories: [
-      ["Low-Level", "Flood"],
-      ["Medium-level", "Flood"],
-      ["High-level", "Flood"],
-      ["Extreme-level", "Flood"],
+      ["Gutter", "Level"],
+      ["Half", "Knee", "Level"],
+      ["Half", "Tire", "Level"],
+      ["Knee", "Level"],
+      ["Tire", "Level"],
+      ["Waist", "Level"],
+      ["Chest", "Level"],
+      ["Head", "Level"],
+      ["Above", "human", "Level"],
     ],
     labels: {
       style: {
