@@ -58,8 +58,17 @@
 }
 
 .title,
-.logo {
+.logo,
+.logo-a {
   font-family: var(--first);
+}
+
+.logo-a {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  width: 100%;
+  text-align: center;
+  color: var(--dark);
 }
 
 .form,
@@ -269,6 +278,10 @@ nav ul li:last-of-type a:hover {
 
 .home-container .map {
   margin-top: 2rem;
+}
+
+.home-container .map h1 {
+  text-align: center;
 }
 
 .home-container iframe {
@@ -576,12 +589,14 @@ nav ul li:last-of-type a:hover {
 .flood-level-table table {
   width: 100%;
   margin-top: 1rem;
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.68);
 }
 
 .flood-level-table table th {
-  background-color: #f0f8ff;
+  background-color: var(--dark);
   font-size: 1.5rem;
   text-align: center;
+  color: var(--white);
 }
 
 .flood-level-table table td {
