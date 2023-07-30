@@ -394,6 +394,7 @@ nav ul li:last-of-type a:hover {
 
 .footer .logo {
   font-size: 2rem;
+  color: var(--blue);
 }
 
 .footer .links {
@@ -405,8 +406,7 @@ nav ul li:last-of-type a:hover {
 .footer .links a {
   text-decoration: none;
   color: var(--dark);
-  font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
 .footer .links a:hover {
@@ -427,18 +427,19 @@ nav ul li:last-of-type a:hover {
 }
 
 .footer .socials .social i {
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
 
 .footer .socials .social a {
   text-decoration: none;
   color: var(--dark);
-  font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
 .footer p {
-  margin-bottom: 0;
+  /* margin-bottom: 0; */
+  color: var(--blue);
+  font-size: 1.2rem;
 }
 
 .home-container {
@@ -633,12 +634,19 @@ nav ul li:last-of-type a:hover {
 .flood-level-table .time {
   font-weight: bold;
 }
+.flood-level-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
 
 .flood-level-img img {
   /* width: 80%; */
   border-radius: 20px;
   box-shadow: var(--shadow);
   margin-bottom: 1rem;
+  width: 80%;
 }
 
 .flood-level-img {
