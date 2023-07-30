@@ -31,7 +31,39 @@ fetch(
   })
   .catch((err) => console.log(err));
 
-// temperature.innerHTML = 26;
-// maxtemperature.innerHTML = 27 + "°C";
-// mintemperature.innerHTML = 24 + "°C";
-// description.innerHTML = "Mist";
+var today = new Date();
+
+var year = today.getFullYear();
+var month = today.getMonth() + 1;
+var day = today.getDate();
+var dayOfWeek = today.getDay();
+var hour = today.getHours();
+var minutes = today.getMinutes();
+var ampm = hour >= 12 ? "PM" : "AM";
+
+hour = hour % 12;
+hour = hour ? hour : 12;
+
+minutes = minutes < 10 ? "0" + minutes : minutes;
+
+document.querySelector(".datetime").innerHTML =
+  month + "/" + day + "/" + year + " " + hour + ":" + minutes + " " + ampm;
+
+// Change the background color based on the flood level status
+const td = document.querySelectorAll(
+  ".flood-level-table table tr td:nth-of-type(5)"
+);
+
+td.forEach((element) => {
+  const content = element.textContent;
+  if (content === "PATV") {
+    element.style.backgroundColor = "#d0f0c0";
+  } else if (content === "NPLV") {
+    element.style.backgroundColor = "#fdfd96";
+  } else if (content === "NPATV") {
+    element.style.backgroundColor = "#ff6347";
+  }
+});
+
+document.querySelector(".flood-level-table p .time").textContent =
+  hour + " " + ampm;

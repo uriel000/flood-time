@@ -562,6 +562,78 @@ nav ul li:last-of-type a:hover {
   margin-right: 5px;
 }
 
+.flood-level-table {
+  /* background-color: pink; */
+  width: 100%;
+  padding: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.flood-level-table table {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.flood-level-table table th {
+  background-color: #f0f8ff;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.flood-level-table table td {
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+.flood-level-table table td,
+.flood-level-table table th {
+  border: 1px solid black;
+}
+
+.flood-level-table .label-status span {
+  font-weight: bold;
+}
+
+.flood-level-table .label-status .patv,
+.flood-level-table .label-status .nplv,
+.flood-level-table .label-status .npatv {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.flood-level-table .label-status .patv p,
+.flood-level-table .label-status .nplv p,
+.flood-level-table .label-status .npatv p {
+  margin-bottom: 0;
+}
+
+.flood-level-table .label-status .patv .color {
+  background-color: #d0f0c0;
+}
+.flood-level-table .label-status .nplv .color {
+  background-color: #fdfd96;
+}
+.flood-level-table .label-status .npatv .color {
+  background-color: #ff6347;
+}
+
+.flood-level-table .label-status .patv .color,
+.flood-level-table .label-status .nplv .color,
+.flood-level-table .label-status .npatv .color {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  margin-right: 1rem;
+}
+
+.flood-level-table .time {
+  font-weight: bold;
+}
+
 #chart {
   width: 100%;
 }
