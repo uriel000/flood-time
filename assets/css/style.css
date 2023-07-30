@@ -634,6 +634,28 @@ nav ul li:last-of-type a:hover {
   font-weight: bold;
 }
 
+.flood-level-img img {
+  /* width: 80%; */
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  margin-bottom: 1rem;
+}
+
+.flood-level-img {
+  text-align: center;
+}
+
+.flood-level-img a {
+  color: var(--blue);
+  font-style: italic;
+  text-decoration: none;
+}
+
+.flood-level-img a:hover {
+  text-decoration: underline;
+  color: var(--dark);
+}
+
 #chart {
   width: 100%;
 }
