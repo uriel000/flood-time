@@ -531,11 +531,12 @@ nav ul li:last-of-type a:hover {
   flex-direction: column;
   align-items: center;
 }
-.map-container .map iframe {
+.map-container #map {
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   margin-bottom: 2rem;
   width: 80%;
+  height: 500px;
 }
 
 .map-container .streets {
