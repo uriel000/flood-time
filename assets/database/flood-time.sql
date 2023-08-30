@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 27, 2023 at 12:49 PM
+-- Generation Time: Aug 30, 2023 at 09:02 PM
 -- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.6
+-- PHP Version: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,35 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users` --
+-- Table structure for table `logs`
+--
+
+CREATE TABLE `logs` (
+  `log_id` int(4) NOT NULL,
+  `sensor_id` int(4) NOT NULL,
+  `log_time` time NOT NULL,
+  `log_date` date NOT NULL,
+  `flood_level_cm` double NOT NULL,
+  `flood_level_inch` double NOT NULL,
+  `level_status` varchar(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sensors`
+--
+
+CREATE TABLE `sensors` (
+  `sensor_id` int(4) NOT NULL,
+  `location_name` varchar(50) NOT NULL,
+  `coordinates` geometry NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -46,6 +74,18 @@ INSERT INTO `users` (`user_id`, `user_name`, `user_email`, `user_password`) VALU
 --
 
 --
+-- Indexes for table `logs`
+--
+ALTER TABLE `logs`
+  ADD PRIMARY KEY (`log_id`);
+
+--
+-- Indexes for table `sensors`
+--
+ALTER TABLE `sensors`
+  ADD PRIMARY KEY (`sensor_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -54,6 +94,18 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `logs`
+--
+ALTER TABLE `logs`
+  MODIFY `log_id` int(4) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `sensors`
+--
+ALTER TABLE `sensors`
+  MODIFY `sensor_id` int(4) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
