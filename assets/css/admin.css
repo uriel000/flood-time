@@ -343,6 +343,9 @@ nav ul li:last-of-type a:hover {
   justify-content: center;
   padding: 0 2rem;
 }
+.admin-home-container {
+  min-height: 50vh;
+}
 
 .admin-container .panels .panel {
   background-color: #00a4c6;
