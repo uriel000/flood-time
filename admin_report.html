@@ -41,7 +41,7 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link" href="login.php"
+                <a class="nav-link" id="signoutbutton"
                   ><i class="fa-solid fa-power-off"></i
                 ></a>
               </li>
@@ -58,31 +58,22 @@
         <a class="panel" href="admin_users.html">Users</a>
         <a class="panel active" href="admin_report.html">Report</a>
       </div>
-      <div class="dashboard">
+      <!--  -->
+      <div class="dashboard report-dashboard">
         <div class="devices">
+          <div class="logo"><i class="fa-solid fa-calendar-day"></i></div>
+          <h1>Latest 24-Hour Flood Status Report</h1>
+          <a href="./report_24hours.html" target="_blank">View</a>
+        </div>
+        <div class="devices" id="sensorDataLink">
+          <div class="logo"><i class="fa-solid fa-chart-line"></i></div>
+          <h1>Historical Flood Data Report</h1>
+          <a href="./report_flood.html" target="_blank">View</a>
+        </div>
+        <div class="users" id="sensorStatusLink">
           <div class="logo"><i class="fa-solid fa-microchip"></i></div>
-          <h1>Devices</h1>
-          <p>12</p>
-        </div>
-        <div class="users">
-          <div class="logo"><i class="fa-solid fa-users"></i></div>
-          <h1>Users</h1>
-          <p>120</p>
-        </div>
-        <div class="users">
-          <div class="logo"><i class="fa-solid fa-users"></i></div>
-          <h1>Users</h1>
-          <p>120</p>
-        </div>
-        <div class="users">
-          <div class="logo"><i class="fa-solid fa-users"></i></div>
-          <h1>Users</h1>
-          <p>120</p>
-        </div>
-        <div class="users">
-          <div class="logo"><i class="fa-solid fa-users"></i></div>
-          <h1>Users</h1>
-          <p>120</p>
+          <h1>Sensor Status and Health Report</h1>
+          <a href="./report_sensors.html" target="_blank">View</a>
         </div>
       </div>
     </div>
@@ -119,5 +110,31 @@
       integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
       crossorigin="anonymous"
     ></script>
+    <script>
+      let UserCreds = JSON.parse(sessionStorage.getItem("user-creds"));
+      let UserInfo = JSON.parse(sessionStorage.getItem("user-info"));
+
+      let signoutbutton = document.querySelector("#signoutbutton");
+
+      let signout = () => {
+        sessionStorage.removeItem("user-creds");
+        sessionStorage.removeItem("user-info");
+        window.location.href = "login.html";
+      };
+
+      let checkcred = () => {
+        if (!sessionStorage.getItem("user-creds")) {
+          window.location.href = "login.html";
+        } else {
+          const parseUserCreds = JSON.parse(UserCreds);
+          const userEmail = parseUserCreds.email;
+          if (userEmail !== "jesrielledesma@gmail.com") {
+            signout();
+          }
+        }
+      };
+      window.addEventListener("load", checkcred);
+      signoutbutton.addEventListener("click", signout);
+    </script>
   </body>
 </html>

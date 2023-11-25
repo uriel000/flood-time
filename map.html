@@ -20,7 +20,12 @@
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
       crossorigin=""
     ></script>
-    <script src="assets/js/leaf.js" defer></script>
+
+    <!-- Leaflet Routing Machine  CSS-->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css"
+    />
     <!-- Bootstrap link -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
@@ -34,11 +39,42 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+
+    <!-- Geolocoder-->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"
+    />
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
   </head>
   <body>
+    <div
+      class="offcanvas offcanvas-end"
+      tabindex="-1"
+      id="offcanvasRight"
+      aria-labelledby="offcanvasRightLabel"
+    >
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Profile</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="offcanvas-body">
+        <p>Username: <span id="off-username"></span></p>
+        <p>Email: <span id="off-email"></span></p>
+        <!-- <p>Number:</p> -->
+        <button id="signoutbutton" type="button" class="btn btn-danger">
+          Logout
+        </button>
+      </div>
+    </div>
     <nav class="navbar fixed-top navbar-expand-lg">
       <div class="container-fluid">
-        <a class="navbar-brand logo" href="home.html">Flood-Time</a>
+        <a class="navbar-brand logo" href="home.html">Flood-Watch</a>
         <div class="nav-links">
           <button
             class="navbar-toggler"
@@ -71,8 +107,20 @@
                 <a class="nav-link" href="about.html">About</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="login.php"
-                  ><i class="fa-solid fa-power-off"></i
+                <a
+                  class="nav-link"
+                  data-bs-toggle="modal"
+                  data-bs-target="#smsModal"
+                  ><i class="fa-solid fa-bell"></i
+                ></a>
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  data-bs-toggle="offcanvas"
+                  data-bs-target="#offcanvasRight"
+                  aria-controls="offcanvasRight"
+                  ><i class="fa-solid fas fa-user"></i
                 ></a>
               </li>
             </ul>
@@ -83,91 +131,76 @@
 
     <div class="map-container">
       <div class="map">
-        <h1 class="logo-a">
-          Barangay 630 (Santa Mesa) Interactive Street Guide and Map
-        </h1>
-        <div id="map"></div>
+        <h1 class="logo-a">Interactive Route Guide and Map</h1>
+        <div id="map" style="width: 100%; height: 90vh; font-size: 8px"></div>
       </div>
+      <h1 style="margin-bottom: 2rem">Instructions</h1>
 
-      <div class="streets">
-        <h1 class="stitle">List of streets in Barangay 630</h1>
-        <form action="">
-          <div class="panel">
-            <h1>A</h1>
-            <div class="checkbox-container">
-              <input type="checkbox" name="anonasew" id="anonasew" />
-              <label for="anonasew">Anonas Extension West (pedestrian)</label>
-            </div>
-            <div class="checkbox-container">
-              <input type="checkbox" name="anonas" id="anonas" />
-              <label for="anonas">Anonas Street (tertiary)</label>
-            </div>
-            <div class="checkbox-container">
-              <input type="checkbox" name="araullo" id="araullo" />
-              <label for="araullo">Araullo Street (tertiary)</label>
-            </div>
-            <h1>C</h1>
-            <div class="checkbox-container">
-              <input type="checkbox" name="arellano" id="arellano" />
-              <label for="arellano">C. Arellano Street</label>
-            </div>
-          </div>
+      <div class="map-instructions">
+        <div class="card" style="width: 18rem">
+          <div class="card-header">Adding Waypoints</div>
 
-          <div class="panel">
-            <h1>F</h1>
-            <div class="checkbox-container">
-              <input type="checkbox" name="fortuna" id="fortuna" />
-              <label for="fortuna">Fortuna Street</label>
-            </div>
-            <h1>J</h1>
-            <div class="checkbox-container">
-              <input type="checkbox" name="Panganiban" id="Panganiban" />
-              <label for="Panganiban">J. H. Panganiban Street</label>
-            </div>
-            <div class="checkbox-container">
-              <input type="checkbox" name="Jose" id="Jose" />
-              <label for="Jose">Jose Abad Santos Street</label>
-            </div>
-            <h1>M</h1>
-            <div class="checkbox-container">
-              <input type="checkbox" name="Magsaysay" id="Magsaysay" />
-              <label for="Magsaysay">Magsaysay Boulevard (primary)</label>
-            </div>
-          </div>
+          <!-- <img
+            src="./assets/images/waypoints-click.png"
+            class="card-img-top"
+            alt="Marker Icon"
+          /> -->
 
-          <div class="panel">
-            <h1>R</h1>
-            <div class="checkbox-container">
-              <input type="checkbox" name="road1" id="road1" />
-              <label for="road1">Road 1</label>
-            </div>
-            <div class="checkbox-container">
-              <input type="checkbox" name="road2" id="road2" />
-              <label for="road2">Road 2</label>
-            </div>
-            <div class="checkbox-container">
-              <input type="checkbox" name="road3" id="road3" />
-              <label for="road3">Road 3</label>
-            </div>
-            <div class="checkbox-container">
-              <input type="checkbox" name="road5" id="road5" />
-              <label for="road5">Road 5</label>
-            </div>
-            <div class="checkbox-container">
-              <input type="checkbox" name="road7" id="road7" />
-              <label for="road7">Road 7</label>
-            </div>
-            <div class="checkbox-container">
-              <input type="checkbox" name="road9" id="road9" />
-              <label for="road9">Road 9</label>
-            </div>
+          <div class="card-body">
+            <i class="fa-solid fa-circle-info" style="color: #000000"></i>
+            <p class="card-text">
+              Click on the map to add waypoints for your route. You can add as
+              many waypoints as needed.
+            </p>
           </div>
-        </form>
+        </div>
+        <div class="card" style="width: 18rem">
+          <div class="card-header">Drag Markers</div>
+
+          <div class="card-body">
+            <i class="fa-solid fa-circle-info"></i>
+            <p class="card-text">
+              Drag the markers for the start and destination to customize your
+              route.
+            </p>
+          </div>
+        </div>
+
+        <div class="card" style="width: 18rem">
+          <div class="card-header">Enter Destination Names</div>
+          <!-- <img
+            src="./assets/images/typedestination.png"
+            class="card-img-top"
+            alt="..."
+          /> -->
+          <div class="card-body">
+            <i class="fa-solid fa-circle-info" style="color: #000000"></i>
+            <p class="card-text">
+              Use the control panel at the upper right corner to enter names for
+              your waypoints, making it easier to identify each location.
+            </p>
+          </div>
+        </div>
+        <div class="card" style="width: 18rem">
+          <div class="card-header">Automatic Routing</div>
+          <!-- <img
+            src="./assets//images/routing.png"
+            class="card-img-top"
+            alt="..."
+          /> -->
+          <div class="card-body">
+            <i class="fa-solid fa-circle-info" style="color: #000000"></i>
+            <p class="card-text">
+              The map will automatically generate a green route for the shortest
+              path. Blue routes represent alternate paths.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="footer">
-      <div class="logo">Flood-Time</div>
+      <div class="logo">Flood-Watch</div>
       <div class="links">
         <p>Pages</p>
         <a href="home.html">Home</a>
@@ -191,6 +224,42 @@
         </div>
       </div>
     </div>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <script>
+      function getUserInfo() {
+        return JSON.parse(sessionStorage.getItem("user-info")) || {};
+      }
+
+      // Function to display user info on the page
+      function displayUserInfo() {
+        const userInfo = getUserInfo();
+        document.querySelector("#off-username").textContent =
+          userInfo.name || "Guest";
+        document.querySelector("#off-email").textContent =
+          userInfo.email || "N/A";
+      }
+
+      let signoutbutton = document.querySelector("#signoutbutton");
+
+      let signout = () => {
+        sessionStorage.removeItem("user-creds");
+        sessionStorage.removeItem("user-info");
+        window.location.href = "login.html";
+      };
+
+      let checkcred = () => {
+        if (!sessionStorage.getItem("user-creds")) {
+          window.location.href = "login.html";
+        }
+      };
+
+      window.addEventListener("load", () => {
+        checkcred();
+        displayUserInfo(); // Display user info on page load
+      });
+
+      signoutbutton.addEventListener("click", signout);
+    </script>
 
     <!-- Bootstrap javascript link -->
     <script
@@ -198,5 +267,6 @@
       integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
       crossorigin="anonymous"
     ></script>
+    <script type="module" src="./assets/js/leaf.js"></script>
   </body>
 </html>

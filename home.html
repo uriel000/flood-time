@@ -6,6 +6,19 @@
     <link rel="stylesheet" href="assets/css/style.css" />
     <link rel="icon" type="image/x-icon" href="assets/images/icon.png" />
 
+    <!-- Leaflit -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
     <!-- Bootstrap link -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
@@ -20,14 +33,42 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
 
-    <script src="assets/js/script.js" defer></script>
-
     <title>Home</title>
   </head>
   <body>
+    <div
+      class="offcanvas offcanvas-end"
+      tabindex="-1"
+      id="offcanvasRight"
+      aria-labelledby="offcanvasRightLabel"
+    >
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Profile</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="offcanvas-body">
+        <p>Username: <span id="off-username"></span></p>
+        <p>Email: <span id="off-email"></span></p>
+        <!-- <p>Number:</p> -->
+        <button
+          id="signoutbutton"
+          type="button"
+          class="btn btn-danger"
+          onclick="signout()"
+        >
+          Logout
+        </button>
+      </div>
+    </div>
+
     <nav class="navbar fixed-top navbar-expand-lg">
       <div class="container-fluid">
-        <a class="navbar-brand logo" href="home.html">Flood-Time</a>
+        <a class="navbar-brand logo" href="home.html">Flood-Watch</a>
         <div class="nav-links">
           <button
             class="navbar-toggler"
@@ -60,8 +101,20 @@
                 <a class="nav-link" href="about.html">About</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="login.php"
-                  ><i class="fa-solid fa-power-off"></i
+                <a
+                  class="nav-link"
+                  data-bs-toggle="modal"
+                  data-bs-target="#smsModal"
+                  ><i class="fa-solid fa-bell"></i
+                ></a>
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  data-bs-toggle="offcanvas"
+                  data-bs-target="#offcanvasRight"
+                  aria-controls="offcanvasRight"
+                  ><i class="fa-solid fas fa-user"></i
                 ></a>
               </li>
             </ul>
@@ -93,18 +146,18 @@
       <div class="flood-information">
         <div class="top">
           <i class="fa-solid fa-triangle-exclamation"></i>
-          <p>Warning Medium Flood in Barangay 630</p>
+          <p id="flood-advisory"></p>
         </div>
         <div class="bottom">
           <div class="bottom-box">
             <i class="fa-solid fa-house-flood-water"></i>
-            <p>37.7 CM</p>
+            <p id="flood-advisory-water-level"></p>
             <p>Water Level</p>
           </div>
           <div class="bottom-box">
             <i class="fa-solid fa-clock"></i>
-            <p class="datetime">7/28/2023 12:00 PM</p>
-            <p>Time</p>
+            <p class="datetime" id="datetime"></p>
+            <p>Datetime</p>
           </div>
         </div>
       </div>
@@ -150,126 +203,36 @@
         <table>
           <thead>
             <tr>
-              <th>Street</th>
+              <th>Avenue</th>
               <th>Flood Level in cm</th>
               <th>Flood LeveL in inch</th>
               <th>Depth</th>
               <th>Status</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>Anonas Extension West</td>
-              <td>40</td>
-              <td>15.75</td>
-              <td>Half tire</td>
-              <td>NPLV</td>
-            </tr>
-            <tr>
-              <td>Anonas Street</td>
-              <td>10</td>
-              <td>3.93</td>
-              <td>Below gutter</td>
-              <td>PATV</td>
-            </tr>
-            <tr>
-              <td>C. Arellano Street</td>
-              <td>100</td>
-              <td>39.37</td>
-              <td>Waist</td>
-              <td>NPATV</td>
-            </tr>
-            <tr>
-              <td>Fortuna Street</td>
-              <td>0</td>
-              <td>0</td>
-              <td>None</td>
-              <td>PATV</td>
-            </tr>
-            <tr>
-              <td>J.H. Panganiban Street</td>
-              <td>30</td>
-              <td>11.811</td>
-              <td>Half Knee</td>
-              <td>PATV</td>
-            </tr>
-            <tr>
-              <td>MAgsaysay Boulevard</td>
-              <td>26</td>
-              <td>10.24</td>
-              <td>Half Knee</td>
-              <td>PATV</td>
-            </tr>
-            <tr>
-              <td>Road 1</td>
-              <td>50</td>
-              <td>19.69</td>
-              <td>Knee</td>
-              <td>NPLV</td>
-            </tr>
-            <tr>
-              <td>Road 2</td>
-              <td>120</td>
-              <td>47.24</td>
-              <td>Chest</td>
-              <td>NPATV</td>
-            </tr>
-            <tr>
-              <td>Road 3</td>
-              <td>75</td>
-              <td>29.53</td>
-              <td>Tires</td>
-              <td>NPATV</td>
-            </tr>
-            <tr>
-              <td>Road 5</td>
-              <td>89</td>
-              <td>35.04</td>
-              <td>Tires</td>
-              <td>NPATV</td>
-            </tr>
-            <tr>
-              <td>Road 7</td>
-              <td>26</td>
-              <td>10.2</td>
-              <td>Half Knee</td>
-              <td>PATV</td>
-            </tr>
-            <tr>
-              <td>Road 9</td>
-              <td>38</td>
-              <td>14.96</td>
-              <td>Half Tire</td>
-              <td>NPLV</td>
-            </tr>
-          </tbody>
+          <tbody id="tableBody"></tbody>
         </table>
         <p style="margin-top: 1rem; margin-bottom: 0">
-          Latest data gathered from every sonar sensors in Barangay 630 as of
-          <span class="time"></span>
+          The table automatically refreshes every 1 minute.
+          <!-- <span class="time"></span> -->
         </p>
       </div>
 
       <div class="map">
         <h1 class="logo-a">Safety Route Map</h1>
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3861.0199312975187!2d121.00649714686378!3d14.597940140885626!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c9dd7068a21b%3A0x9644f1271fa22dc4!2sBrgy.%20630%2C%20Santa%20Mesa%2C%20Manila%2C%20Metro%20Manila!5e0!3m2!1sen!2sph!4v1690471922061!5m2!1sen!2sph"
-          width="600"
-          height="450"
-          style="border: 0"
-          allowfullscreen=""
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-        ></iframe>
+        <div class="home-map-container">
+          <div id="map"></div>
+        </div>
+
         <p>
-          <span><i class="fa-solid fa-location-dot"></i></span>Barangay 630,
-          sta. mesa, manila
+          <span><i class="fa-solid fa-location-dot"></i></span>University Belt -
+          Taft Avenue
         </p>
       </div>
     </div>
 
     <div class="footer">
-      <div class="logo">Flood-Time</div>
+      <div class="logo">Flood-Watch</div>
       <div class="links">
         <p>Pages</p>
         <a href="home.html">Home</a>
@@ -294,11 +257,93 @@
       </div>
     </div>
 
+    <!-- SMS Subscribe Modal -->
+    <div
+      class="modal fade"
+      id="smsModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              Subscibe for SMS flood updates
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <img src="assets/images/notif.png" alt="" />
+            <p>
+              Receive real-time updates on flood alerts, weather conditions, and
+              emergency information directly to your mobile device.
+            </p>
+            <form action="" method="post">
+              <input type="number" placeholder="Mobile number" />
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Subscribe</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      function getUserInfo() {
+        return JSON.parse(sessionStorage.getItem("user-info")) || {};
+      }
+
+      // Function to display user info on the page
+      function displayUserInfo() {
+        const userInfo = getUserInfo();
+        document.querySelector("#off-username").textContent =
+          userInfo.name || "Guest";
+        document.querySelector("#off-email").textContent =
+          userInfo.email || "N/A";
+      }
+
+      let signoutbutton = document.querySelector("#signoutbutton");
+
+      let signout = () => {
+        sessionStorage.removeItem("user-creds");
+        sessionStorage.removeItem("user-info");
+        window.location.href = "login.html";
+      };
+
+      let checkcred = () => {
+        if (!sessionStorage.getItem("user-creds")) {
+          window.location.href = "login.html";
+        }
+      };
+
+      window.addEventListener("load", () => {
+        checkcred();
+        displayUserInfo(); // Display user info on page load
+      });
+
+      signoutbutton.addEventListener("click", signout);
+    </script>
+
     <!-- Bootstrap javascript link -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
       crossorigin="anonymous"
     ></script>
+
+    <script type="module" src="./assets/js/script.js"></script>
   </body>
 </html>

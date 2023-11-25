@@ -1,0 +1,65 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.container {
+  margin-top: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.card {
+  box-sizing: content-box;
+  max-width: 750px;
+  padding: 30px;
+  /* border: 1px solid black; */
+  border: none;
+  font-style: sans-serif;
+}
+
+button {
+  background-color: #4caf50;
+  border-radius: 5px;
+  margin-left: 650px;
+  margin-bottom: 5px;
+  padding: 5px;
+  border: none;
+  color: white;
+}
+
+h2 {
+  text-align: center;
+  color: #24650b;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#time-today {
+  font-size: 1rem;
+}
+
+#report-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1rem;
+}
+
+.tools {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.street-form select {
+  height: 3.2rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  font-size: 1.2rem;
+  border-radius: 20px;
+}

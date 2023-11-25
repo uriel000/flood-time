@@ -23,9 +23,33 @@
     />
   </head>
   <body>
+    <div
+      class="offcanvas offcanvas-end"
+      tabindex="-1"
+      id="offcanvasRight"
+      aria-labelledby="offcanvasRightLabel"
+    >
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Profile</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="offcanvas-body">
+        <p>Username: <span id="off-username"></span></p>
+        <p>Email: <span id="off-email"></span></p>
+        <!-- <p>Number:</p> -->
+        <button id="signoutbutton" type="button" class="btn btn-danger">
+          Logout
+        </button>
+      </div>
+    </div>
     <nav class="navbar fixed-top navbar-expand-lg">
       <div class="container-fluid">
-        <a class="navbar-brand logo" href="home.html">Flood-Time</a>
+        <a class="navbar-brand logo" href="home.html">Flood-Watch</a>
         <div class="nav-links">
           <button
             class="navbar-toggler"
@@ -58,8 +82,20 @@
                 <a class="nav-link" href="about.html">About</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="login.php"
-                  ><i class="fa-solid fa-power-off"></i
+                <a
+                  class="nav-link"
+                  data-bs-toggle="modal"
+                  data-bs-target="#smsModal"
+                  ><i class="fa-solid fa-bell"></i
+                ></a>
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  data-bs-toggle="offcanvas"
+                  data-bs-target="#offcanvasRight"
+                  aria-controls="offcanvasRight"
+                  ><i class="fa-solid fas fa-user"></i
                 ></a>
               </li>
             </ul>
@@ -69,23 +105,23 @@
     </nav>
     <div class="about-container">
       <h1 class="logo-a">
-        Welcome to Flood-Time: A Real-Time Web Based Flood Monitoring System
+        Welcome to Flood-Watch: A Real-Time Web Based Flood Monitoring System
         using IoT with Route Information
       </h1>
 
       <p>
-        Flood-Time is a groundbreaking project aimed at addressing the serious
+        Flood-Watch is a groundbreaking project aimed at addressing the serious
         natural calamity of floods in the Philippines. With increasing frequency
         and intensity of floods due to climate change and urbanization, there is
         an urgent need for a reliable flood monitoring system. Our system,
-        Flood-Time, utilizes Internet of Things (IoT) technology and integrates
+        Flood-Watch, utilizes Internet of Things (IoT) technology and integrates
         route information to provide accurate and timely flood data. By
         collecting water level data through IoT-enabled ultrasonic sensors, we
         offer real-time flood monitoring, helping users make informed decisions
         and plan safe evacuation routes.
       </p>
       <p>
-        Flood-Time empowers local government units (LGUs), disaster response
+        Flood-Watch empowers local government units (LGUs), disaster response
         teams, and all Filipinos with a reliable and current flood monitoring
         system. Accessible through a user-friendly web-based interface, the
         system allows real-time monitoring from any location, enabling prompt
@@ -95,7 +131,7 @@
       </p>
       <h2>Objectives</h2>
       <p>
-        Flood-Time aims to assist LGUs and fellow Filipinos in monitoring flood
+        Flood-Watch aims to assist LGUs and fellow Filipinos in monitoring flood
         levels to mitigate problems caused by floods, such as stranded
         individuals, delayed evacuations, and other related challenges.
       </p>
@@ -124,7 +160,7 @@
     </div>
 
     <div class="footer">
-      <div class="logo">Flood-Time</div>
+      <div class="logo">Flood-Watch</div>
       <div class="links">
         <p>Pages</p>
         <a href="home.html">Home</a>
@@ -148,6 +184,41 @@
         </div>
       </div>
     </div>
+    <script>
+      function getUserInfo() {
+        return JSON.parse(sessionStorage.getItem("user-info")) || {};
+      }
+
+      // Function to display user info on the page
+      function displayUserInfo() {
+        const userInfo = getUserInfo();
+        document.querySelector("#off-username").textContent =
+          userInfo.name || "Guest";
+        document.querySelector("#off-email").textContent =
+          userInfo.email || "N/A";
+      }
+
+      let signoutbutton = document.querySelector("#signoutbutton");
+
+      let signout = () => {
+        sessionStorage.removeItem("user-creds");
+        sessionStorage.removeItem("user-info");
+        window.location.href = "login.html";
+      };
+
+      let checkcred = () => {
+        if (!sessionStorage.getItem("user-creds")) {
+          window.location.href = "login.html";
+        }
+      };
+
+      window.addEventListener("load", () => {
+        checkcred();
+        displayUserInfo(); // Display user info on page load
+      });
+
+      signoutbutton.addEventListener("click", signout);
+    </script>
 
     <!-- Bootstrap javascript link -->
     <script

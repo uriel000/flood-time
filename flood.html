@@ -19,14 +19,37 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
-    <script src="assets/js/chart.js" defer></script>
 
     <title>Flood Data</title>
   </head>
   <body>
+    <div
+      class="offcanvas offcanvas-end"
+      tabindex="-1"
+      id="offcanvasRight"
+      aria-labelledby="offcanvasRightLabel"
+    >
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Profile</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="offcanvas-body">
+        <p>Username: <span id="off-username"></span></p>
+        <p>Email: <span id="off-email"></span></p>
+        <!-- <p>Number:</p> -->
+        <button id="signoutbutton" type="button" class="btn btn-danger">
+          Logout
+        </button>
+      </div>
+    </div>
     <nav class="navbar fixed-top navbar-expand-lg">
       <div class="container-fluid">
-        <a class="navbar-brand logo" href="home.html">Flood-Time</a>
+        <a class="navbar-brand logo" href="home.html">Flood-Watch</a>
         <div class="nav-links">
           <button
             class="navbar-toggler"
@@ -59,8 +82,20 @@
                 <a class="nav-link" href="about.html">About</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="login.php"
-                  ><i class="fa-solid fa-power-off"></i
+                <a
+                  class="nav-link"
+                  data-bs-toggle="modal"
+                  data-bs-target="#smsModal"
+                  ><i class="fa-solid fa-bell"></i
+                ></a>
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  data-bs-toggle="offcanvas"
+                  data-bs-target="#offcanvasRight"
+                  aria-controls="offcanvasRight"
+                  ><i class="fa-solid fas fa-user"></i
                 ></a>
               </li>
             </ul>
@@ -68,44 +103,22 @@
         </div>
       </div>
     </nav>
-
-    <div class="flood-container">
+    <div class="flood-chart-container">
       <div class="charts">
         <h1 class="logo-a">Flood Level in cm</h1>
-        <form action="" class="street-form">
-          <select name="street" id="streets">
-            <option value="none" disabled selected>Choose a street</option>
-            <option value="anonas">Anonas Extenstion West</option>
-            <option value="anonas">Anonas Street</option>
-            <option value="arella">C. Arellano Street</option>
-            <option value="fortuna">Fortuna Street</option>
-            <option value="panganiban">J.H. Panganiban Street</option>
-            <option value="magsaysay">Magsaysay Boulevard</option>
-            <option value="road1">Road 1</option>
-            <option value="road2">Road 2</option>
-            <option value="road3">Road 3</option>
-            <option value="road5">Road 5</option>
-            <option value="road7">Road 7</option>
-            <option value="road9">Road 9</option>
-          </select>
-        </form>
-        <div class="charts-card">
-          <p class="chart-title"></p>
-          <div id="chart"></div>
-        </div>
-        <p>
-          <span><i class="fa-solid fa-location-dot"></i></span>Barangay 630,
-          sta. mesa, manila
+        <div class="charts-card" id="all-charts"></div>
+        <p class="flood-chart-description">
+          <span><i class="fa-solid fa-location-dot"></i></span>University Belt,
+          Taft Avenue
         </p>
       </div>
-
-      <div class="charts">
+      <div class="charts-2">
         <h1 class="logo-a">Flood Level Indication</h1>
-        <div class="charts-card">
+        <div class="charts-card-2">
           <p class="chart-title"></p>
           <div id="chart2"></div>
         </div>
-        <p>
+        <p class="flood-chart-description">
           <span><i class="fa-solid fa-water"></i></span>Flood level
           classifications based on approximate height in centimeters
         </p>
@@ -122,7 +135,7 @@
     </div>
 
     <div class="footer">
-      <div class="logo">Flood-Time</div>
+      <div class="logo">Flood-Watch</div>
       <div class="links">
         <p>Pages</p>
         <a href="home.html">Home</a>
@@ -146,6 +159,41 @@
         </div>
       </div>
     </div>
+    <script>
+      function getUserInfo() {
+        return JSON.parse(sessionStorage.getItem("user-info")) || {};
+      }
+
+      // Function to display user info on the page
+      function displayUserInfo() {
+        const userInfo = getUserInfo();
+        document.querySelector("#off-username").textContent =
+          userInfo.name || "Guest";
+        document.querySelector("#off-email").textContent =
+          userInfo.email || "N/A";
+      }
+
+      let signoutbutton = document.querySelector("#signoutbutton");
+
+      let signout = () => {
+        sessionStorage.removeItem("user-creds");
+        sessionStorage.removeItem("user-info");
+        window.location.href = "login.html";
+      };
+
+      let checkcred = () => {
+        if (!sessionStorage.getItem("user-creds")) {
+          window.location.href = "login.html";
+        }
+      };
+
+      window.addEventListener("load", () => {
+        checkcred();
+        displayUserInfo(); // Display user info on page load
+      });
+
+      signoutbutton.addEventListener("click", signout);
+    </script>
 
     <!-- Apex charts  -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.41.0/apexcharts.min.js"></script>
@@ -156,5 +204,6 @@
       integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
       crossorigin="anonymous"
     ></script>
+    <script src="assets/js/chart2.js" type="module"></script>
   </body>
 </html>

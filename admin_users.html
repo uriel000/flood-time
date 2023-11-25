@@ -41,7 +41,7 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link" href="login.php"
+                <a class="nav-link" id="signoutbutton"
                   ><i class="fa-solid fa-power-off"></i
                 ></a>
               </li>
@@ -56,91 +56,21 @@
         <a class="panel" href="admin_home.html">Dashboard</a>
         <a class="panel" href="admin_devices.html">Devices</a>
         <a class="panel active" href="admin_users.html">Users</a>
-        <!-- <a class="panel" href="admin_report.html">Report</a> -->
+        <a class="panel" href="admin_report.html">Report</a>
       </div>
       <div class="manage-user-container">
         <h1>Manage system users</h1>
-        <table>
+        <table id="userTable">
           <thead>
             <tr>
               <th>Name</th>
               <th>Email</th>
-              <th>User type</th>
+              <th>Contact</th>
               <th>Manage</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>Jesriel D. Ledesma</td>
-              <td>jesriel@gmail.com</td>
-              <td>Barangay Official</td>
-              <td>
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#editModal"
-                >
-                  Edit</button
-                ><button type="button" class="btn btn-primary">Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Daniel Alexis Dulce</td>
-              <td>daniel@gmail.com</td>
-              <td>Barangay Official</td>
-              <td>
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#editModal"
-                >
-                  Edit</button
-                ><button type="button" class="btn btn-primary">Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Mariah Bellaflor</td>
-              <td>mariah@gmail.com</td>
-              <td>Barangay Official</td>
-              <td>
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#editModal"
-                >
-                  Edit</button
-                ><button type="button" class="btn btn-primary">Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Alyana Ortiz</td>
-              <td>alyana@gmail.com</td>
-              <td>Barangay Official</td>
-              <td>
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#editModal"
-                >
-                  Edit</button
-                ><button type="button" class="btn btn-primary">Delete</button>
-              </td>
-            </tr>
-          </tbody>
+          <tbody id="tableBody"></tbody>
         </table>
-        <button
-          type="button"
-          class="btn btn-primary"
-          data-bs-toggle="modal"
-          data-bs-target="#exampleModal"
-          id="modal-btn"
-        >
-          Add user
-        </button>
       </div>
     </div>
 
@@ -170,59 +100,6 @@
       </div>
     </div>
 
-    <div
-      class="modal fade"
-      id="exampleModal"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">
-              Add new user
-            </h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <input type="text" name="name" id="" placeholder="Name" />
-
-            <input type="text" name="name" id="" placeholder="Email" />
-            <input
-              type="password"
-              name="password"
-              id=""
-              placeholder="Password"
-            />
-            <select>
-              <option value="active">User</option>
-              <option value="inactive">Admin</option>
-            </select>
-            <select>
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-            </select>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- Modal -->
     <div
       class="modal fade"
@@ -245,23 +122,25 @@
             ></button>
           </div>
           <div class="modal-body">
-            <input type="text" name="name" id="" placeholder="Name" />
+            <form action="">
+              <input type="text" name="name" id="" placeholder="Name" />
 
-            <input type="text" name="name" id="" placeholder="Email" />
-            <input
-              type="password"
-              name="password"
-              id=""
-              placeholder="Password"
-            />
-            <select>
-              <option value="active">User</option>
-              <option value="inactive">Admin</option>
-            </select>
-            <select>
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-            </select>
+              <input type="text" name="name" id="" placeholder="Email" />
+              <input
+                type="password"
+                name="password"
+                id=""
+                placeholder="Password"
+              />
+              <select>
+                <option value="active">User</option>
+                <option value="inactive">Admin</option>
+              </select>
+              <select>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+            </form>
           </div>
           <div class="modal-footer">
             <button
@@ -283,5 +162,33 @@
       integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
       crossorigin="anonymous"
     ></script>
+    <script>
+      let UserCreds = JSON.parse(sessionStorage.getItem("user-creds"));
+      let UserInfo = JSON.parse(sessionStorage.getItem("user-info"));
+
+      let signoutbutton = document.querySelector("#signoutbutton");
+
+      let signout = () => {
+        sessionStorage.removeItem("user-creds");
+        sessionStorage.removeItem("user-info");
+        window.location.href = "login.html";
+      };
+
+      let checkcred = () => {
+        if (!sessionStorage.getItem("user-creds")) {
+          window.location.href = "login.html";
+        } else {
+          const parseUserCreds = UserCreds;
+
+          const userEmail = parseUserCreds.email;
+          if (userEmail !== "jesrielledesma@gmail.com") {
+            signout();
+          }
+        }
+      };
+      window.addEventListener("load", checkcred);
+      signoutbutton.addEventListener("click", signout);
+    </script>
+    <script src="/assets/js/adminuser.js" type="module"></script>
   </body>
 </html>

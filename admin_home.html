@@ -41,7 +41,7 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link" href="login.php"
+                <a class="nav-link" id="signoutbutton"
                   ><i class="fa-solid fa-power-off"></i
                 ></a>
               </li>
@@ -56,23 +56,23 @@
         <a class="panel active" href="admin_home.html">Dashboard</a>
         <a class="panel" href="admin_devices.html">Devices</a>
         <a class="panel" href="admin_users.html">Users</a>
-        <!-- <a class="panel" href="admin_report.html">Report</a> -->
+        <a class="panel" href="admin_report.html">Report</a>
       </div>
       <div class="dashboard">
         <div class="devices">
           <div class="logo"><i class="fa-solid fa-microchip"></i></div>
           <h1>Devices</h1>
-          <p>12</p>
+          <p id="sensor_count">0</p>
         </div>
         <div class="location">
           <div class="logo"><i class="fa-solid fa-map-location-dot"></i></div>
           <h1>Locations</h1>
-          <p>12</p>
+          <p id="location_count">0</p>
         </div>
         <div class="users">
           <div class="logo"><i class="fa-solid fa-users"></i></div>
           <h1>Users</h1>
-          <p>120</p>
+          <p id="user_count">0</p>
         </div>
       </div>
     </div>
@@ -110,4 +110,32 @@
       crossorigin="anonymous"
     ></script>
   </body>
+
+  <script>
+    let UserCreds = JSON.parse(sessionStorage.getItem("user-creds"));
+    let UserInfo = JSON.parse(sessionStorage.getItem("user-info"));
+
+    let signoutbutton = document.querySelector("#signoutbutton");
+
+    let signout = () => {
+      sessionStorage.removeItem("user-creds");
+      sessionStorage.removeItem("user-info");
+      window.location.href = "login.html";
+    };
+
+    let checkcred = () => {
+      if (!sessionStorage.getItem("user-creds")) {
+        window.location.href = "login.html";
+      } else {
+        const parseUserCreds = UserCreds;
+        const userEmail = parseUserCreds.email;
+        if (userEmail !== "jesrielledesma@gmail.com") {
+          signout();
+        }
+      }
+    };
+    window.addEventListener("load", checkcred);
+    signoutbutton.addEventListener("click", signout);
+  </script>
+  <script src="/assets/js/adminhome.js" type="module"></script>
 </html>

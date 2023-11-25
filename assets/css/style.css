@@ -19,16 +19,20 @@
   font-family: var(--second);
   font-size: 1rem;
 }
+
 /* POP-UP MESSAGE */
 .message {
-  position: sticky;
+  position: fixed;
   top: 0;
+  right: 0;
   margin: 0 auto;
-  background-color: var(--dark);
+  background-color: var(--pink);
   padding: 2rem;
-  display: flex;
+  display: none;
+  width: 400px;
   align-items: center;
   justify-content: space-between;
+  animation: slide-in-right 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   z-index: 10000;
   gap: 1.5rem;
 }
@@ -66,6 +70,7 @@
 .logo-a {
   font-size: 3rem;
   margin-bottom: 1rem;
+  margin-top: 6rem;
   width: 100%;
   text-align: center;
   color: var(--dark);
@@ -137,7 +142,8 @@ form p {
   font-size: 5rem;
 }
 
-.form .btn {
+.form .btn,
+.off-btn {
   background-color: var(--blue);
   border: none;
   width: 60%;
@@ -145,18 +151,21 @@ form p {
   padding: 0;
 }
 
-.form .btn {
+.form .btn,
+off-btn {
   color: var(--white);
   font-weight: bold;
   transition: all 0.3s ease-in-out;
 }
 
-.btn:hover {
+.btn:hover,
+.off-btn:hover {
   box-shadow: var(--shadow);
   background-color: var(--dark);
 }
 
-.btn:active {
+.btn:active,
+.off-btn:active {
   box-shadow: none;
 }
 
@@ -171,6 +180,26 @@ form p {
   width: 100%;
   object-fit: cover;
   height: 100vh;
+}
+
+.offcanvas-body {
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+  margin-top: 10%;
+  flex-direction: column;
+}
+
+.offcanvas-body p,
+.offcanvas-body span {
+  font-size: 1.2rem;
+}
+
+.offcanvas-body p {
+  font-weight: bold;
+}
+.offcanvas-body span {
+  font-weight: 100;
 }
 
 /* Home page */
@@ -208,6 +237,13 @@ nav .nav-item a:hover {
   text-decoration: underline;
   color: #00a4c6;
 }
+nav ul li:nth-of-type(5) a {
+  background-color: var(--pink);
+  color: var(--white);
+  border-radius: 20px;
+  text-align: center;
+}
+
 nav ul li:last-of-type a {
   background-color: red;
   color: var(--white);
@@ -215,7 +251,8 @@ nav ul li:last-of-type a {
   text-align: center;
 }
 
-nav ul li:last-of-type a:hover {
+nav ul li:last-of-type a:hover,
+nav ul li:nth-of-type(5) a:hover {
   background-color: var(--dark);
   color: var(--white);
 }
@@ -280,6 +317,7 @@ nav ul li:last-of-type a:hover {
 
 .home-container .map {
   margin-top: 2rem;
+  width: 100%;
 }
 
 .home-container .map h1 {
@@ -294,7 +332,9 @@ nav ul li:last-of-type a:hover {
 .home-container .map p,
 .home-container .map p span i,
 .charts p span i,
-.charts p {
+.charts p,
+.charts-2 p span i,
+.charts-2 p {
   text-align: center;
   font-size: 1.5rem;
 }
@@ -305,7 +345,7 @@ nav ul li:last-of-type a:hover {
 .flood-container {
   max-width: 1200px;
   margin: 0 auto;
-  margin-top: 10rem !important;
+  margin-top: 150px;
 }
 
 .flood-information {
@@ -334,7 +374,7 @@ nav ul li:last-of-type a:hover {
   font-size: 8rem;
 }
 .flood-information .top p {
-  font-size: 2rem;
+  font-size: 1.5rem;
   margin-top: 1rem;
   margin-bottom: 0;
   text-align: center;
@@ -461,26 +501,52 @@ nav ul li:last-of-type a:hover {
   color: var(--blue);
   font-size: 1.2rem;
 }
+.flood-chart-container {
+  max-width: 1200px;
+  /* background-color: #00a4c6; */
+  margin: 0 auto;
+  margin-top: 50px;
+}
 
-.charts {
+.charts,
+.charts-2 {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 80vh;
   border-radius: 10px;
   flex-direction: column;
 }
 
-.charts .title {
-  font-size: 4rem;
+.charts-card-2 {
+  max-width: 700px;
 }
 
-.charts p span i {
+.charts .title {
+  font-size: 4rem;
+  margin-bottom: 40px;
+}
+
+.charts-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.charts p span i,
+.charts-2 p span i {
   margin-right: 1rem;
 }
 
 .charts .charts-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  /* flex-direction: column; */
+}
+
+.charts .realtime-chart-parent-div {
   background-color: var(--white);
   margin-bottom: 20px;
   padding: 25px;
@@ -488,6 +554,19 @@ nav ul li:last-of-type a:hover {
   border: 1px solid var(--dark);
   border-radius: 5px;
   box-shadow: var(--shadow);
+  height: 400px;
+  width: 450px;
+}
+
+.charts-2 .charts-card-2 {
+  background-color: var(--white);
+  margin-bottom: 20px;
+  padding: 25px;
+  -webkit-column-break-inside: avoid;
+  border: 1px solid var(--dark);
+  border-radius: 5px;
+  box-shadow: var(--shadow);
+  height: 500px;
   width: 80%;
 }
 
@@ -507,7 +586,7 @@ nav ul li:last-of-type a:hover {
   border-radius: 20px;
 }
 
-.map-container {
+.home-map-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -516,9 +595,73 @@ nav ul li:last-of-type a:hover {
   margin: 0 auto;
 }
 
+.map-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+.map-container .map {
+  width: 80%;
+}
+
 .map-container .map h1 {
   text-align: center;
   margin: 2rem 0;
+}
+
+.map-btn {
+  margin: 5px;
+}
+
+.map-instructions {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 2rem;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+.map-instructions .card {
+  background-color: #fcfafa;
+}
+
+.map-instructions .card .card-body {
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  align-items: center;
+}
+
+.map-instructions .card .card-body .fa-circle-info {
+  font-size: 1.2rem;
+  color: #00a4c6 !important;
+}
+
+.map-instructions .card img {
+  height: 200px;
+  object-fit: contain;
+}
+
+.leaflet-routing-container {
+  font-size: 14px;
+}
+
+.leaflet-routing-container .leaflet-routing-alternatives {
+  font-size: 12px;
+}
+
+.leaflet-routing-collapse-btn,
+.leaflet-routing-add-waypoint {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.leaflet-routing-collapse-btn:hover,
+.leaflet-routing-add-waypoint:hover {
+  background-color: #f0f8ff;
 }
 
 .map-container .map {
@@ -531,14 +674,14 @@ nav ul li:last-of-type a:hover {
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   margin-bottom: 2rem;
+  font-size: 10px;
+}
+.home-map-container #map {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 2rem;
   width: 80%;
   height: 500px;
-}
-
-.map-container .streets {
-  /* background-color: #fff7f7; */
-  width: 100%;
-  padding: 1rem;
 }
 
 .about-container {
@@ -553,7 +696,7 @@ nav ul li:last-of-type a:hover {
 }
 
 .map-container {
-  margin-top: 8rem !important;
+  margin-top: 10rem;
 }
 
 .map-container .streets .stitle {
@@ -563,14 +706,8 @@ nav ul li:last-of-type a:hover {
   margin-bottom: 1rem;
 }
 
-.map-container .streets .panel h1 {
+.map-container .streets h1 {
   background-color: #f0f8ff;
-}
-
-.map-container .streets form {
-  display: flex;
-  justify-content: space-evenly;
-  /* flex-wrap: wrap; */
 }
 
 .checkbox-container {
@@ -598,7 +735,7 @@ nav ul li:last-of-type a:hover {
 .flood-level-table table {
   width: 100%;
   margin-top: 1rem;
-  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.68);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.68);
 }
 
 .flood-level-table table th {
@@ -611,11 +748,16 @@ nav ul li:last-of-type a:hover {
 .flood-level-table table td {
   font-size: 1.3rem;
   text-align: center;
+  padding: 15px 0;
 }
 
 .flood-level-table table td,
 .flood-level-table table th {
   border: 1px solid black;
+}
+
+.flood-level-table table tr:hover {
+  background-color: pink;
 }
 
 .flood-level-table .label-status span {
@@ -692,12 +834,36 @@ nav ul li:last-of-type a:hover {
   width: 100%;
 }
 
+#smsModal img {
+  width: 100%;
+}
+
+#smsModal p {
+  text-align: center;
+}
+
+#smsModal form input {
+  width: 100%;
+  height: 3rem;
+  padding-left: 5px;
+  border-radius: 5px;
+  border: 1px solid #0e1735;
+}
+.my-tooltip {
+  width: 340px;
+  height: 120px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
 @media (max-width: 991px) {
   html {
     font-size: 70%;
   }
-  .container-fluid {
-  }
+
   .nav-links {
     display: flex;
     flex-direction: column;
@@ -771,10 +937,42 @@ nav ul li:last-of-type a:hover {
   .map-container .streets form {
     flex-direction: column;
   }
+  .my-tooltip {
+    width: 220px;
+    height: 80px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 @media (max-width: 500px) {
-  .charts .charts-card {
-    width: 40rem;
+  .flood-container {
+    margin-top: 120px;
+  }
+  .charts .realtime-chart-parent-div {
+    max-width: 350px;
+    padding: 5px;
+  }
+  .flood-information .top p {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .flood-container {
+    margin-top: 170px;
+  }
+}
+
+@keyframes slide-in-right {
+  0% {
+    transform: translateX(1000px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
   }
 }

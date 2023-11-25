@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="icon" type="image/x-icon" href="assets/images/icon.png" />
+    <title>Register</title>
+
+    <!-- font awesome cdn link -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="message">
+      <span>'Hello'</span>
+      <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
+    </div>
+    <div class="register-container">
+      <div class="form" id="register-form">
+        <h1>Welcome to <span class="title">Flood-Watch</span></h1>
+        <p class="second-title">Create an account</p>
+        <form method="post">
+          <label for="name">Name</label>
+          <input
+            type="text"
+            name="name"
+            placeholder="Enter your name"
+            id="userName"
+            required
+          />
+          <label for="email">Email</label>
+          <input
+            type="email"
+            name="email"
+            placeholder="youremail@email.com"
+            id="userEmail"
+            required
+          />
+          <label for="email">Mobile Number</label>
+          <input
+            type="text"
+            name="mobilenumber"
+            id="mobilenumber"
+            placeholder="Mobile Number"
+            id="userEmail"
+            required
+          />
+          <label for="password">Password</label>
+          <input
+            type="password"
+            name="password"
+            id="userPassword"
+            placeholder="Enter your password"
+            required
+          />
+
+          <input
+            type="submit"
+            value="Register"
+            name="submit"
+            class="btn"
+            id="submitBtn"
+          />
+        </form>
+        <p>Already have an account? <a href="login.html">Login</a></p>
+        <!-- <p class="terms">
+          By creating an account you agree to our
+          <span style="color: var(--blue)">Terms of Service</span> and
+          <span style="color: var(--blue)">Privacy Policy</span>.
+        </p> -->
+      </div>
+      <div class="rain">
+        <img src="assets/images/background.jpg" alt="" />
+      </div>
+    </div>
+  </body>
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+    } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+    import {
+      getDatabase,
+      set,
+      ref,
+    } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCpr-1EERV53eqD-jKDGBCNLYeW4GwbBSs",
+      authDomain: "flood-watch-614bb.firebaseapp.com",
+      projectId: "flood-watch-614bb",
+      storageBucket: "flood-watch-614bb.appspot.com",
+      messagingSenderId: "917331455641",
+      appId: "1:917331455641:web:6f7bd1c3974ec667d71208",
+      databaseURL:
+        "https://flood-watch-614bb-default-rtdb.asia-southeast1.firebasedatabase.app/",
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const auth = getAuth(app);
+
+    const submitBtn = document.querySelector("#submitBtn");
+    submitBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      let username = document.querySelector("#userName").value;
+      let email = document.querySelector("#userEmail").value;
+      let mobilenumber = document.querySelector("#mobilenumber").value;
+      let password = document.querySelector("#userPassword").value;
+
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          set(ref(db, "Users/" + user.uid), {
+            name: username,
+            email: email,
+            contact: mobilenumber,
+          });
+          messageBoxSpan.innerHTML = "Registration successful.";
+          messageBox.style.display = "flex";
+          document.querySelector("#userName").value = "";
+          document.querySelector("#userEmail").value = "";
+          document.querySelector("#mobilenumber").value = "";
+          document.querySelector("#userPassword").value = "";
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const messageBox = document.querySelector(".message");
+          const messageBoxSpan = document.querySelector(".message span");
+          const errorCodeWithoutPrefix = errorCode.replace("auth/", "");
+          const formattedErrorCode = errorCodeWithoutPrefix
+            .replace(/-/g, " ") // Replace dashes with spaces
+            .replace(/\b\w/g, (firstChar) => firstChar.toUpperCase());
+          messageBoxSpan.innerHTML = formattedErrorCode;
+          messageBox.style.display = "flex";
+        });
+    });
+  </script>
+</html>

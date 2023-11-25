@@ -1,52 +1,357 @@
-const map = L.map("map").setView([14.5989505, 121.0077555], 17);
+const map = L.map("map").setView([14.57031533402106, 120.99156564740088], 17);
 const attribution = "";
 
 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  maxZoom: 19,
+  maxZoom: 14,
   attribution: "© OpenStreetMap",
 }).addTo(map);
 
-var centery = 14.5989505;
-var centerx = 121.0077555;
-var minlong = 121.004799;
-var minlat = 14.595201;
-var maxlong = 121.010712;
-var maxlat = 14.6027;
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 
-var latlngs = [
-  [14.596805594717253, 121.01074931792118],
-  [14.596462404012144, 121.0100830302705],
-  [14.597200783349521, 121.00885792071813],
-  [14.597169584273203, 121.0084495508674],
-  [14.597533573226912, 121.00776177006583],
-  [14.598029800169442, 121.00601446972416],
-  [14.59859051614913, 121.0063276706307],
-  [14.599575554272803, 121.006507761151],
-  [14.600370802239667, 121.00649123782819],
-  [14.600825082219714, 121.00615153571613],
-  [14.601197782350468, 121.00588054797959],
-  [14.602218338839322, 121.00491797646578],
-  [14.602470700689707, 121.00471927970182],
-  [14.602630200696694, 121.00485023588789],
-  [14.602724152128943, 121.005717256308],
-  [14.599008400098228, 121.01034233879881],
-  [14.598198602201933, 121.01064688273539],
-  [14.59762775918874, 121.01070724311126],
-  [14.596806882665035, 121.01074086862059],
-];
+import {
+  getDatabase,
+  query,
+  ref,
+  set,
+  remove,
+  update,
+  get,
+  limitToLast,
+  onValue,
+  orderByKey,
+} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
 
-const polyline = L.polyline(latlngs, { color: "red" }).addTo(map);
+const firebaseConfig = {
+  apiKey: "AIzaSyCpr-1EERV53eqD-jKDGBCNLYeW4GwbBSs",
+  authDomain: "flood-watch-614bb.firebaseapp.com",
+  projectId: "flood-watch-614bb",
+  storageBucket: "flood-watch-614bb.appspot.com",
+  messagingSenderId: "917331455641",
+  appId: "1:917331455641:web:6f7bd1c3974ec667d71208",
+  databaseURL:
+    "https://flood-watch-614bb-default-rtdb.asia-southeast1.firebasedatabase.app/",
+};
 
-L.marker([121.00759755597073, 14.599423302513017]).addTo(map);
-L.marker([14.599079380708076, 121.00662471131295]).addTo(map);
-L.marker([14.60129228421981, 121.00738429844273]).addTo(map);
-L.marker([14.601750615577686, 121.0061325882171]).addTo(map);
-L.marker([14.600090836155175, 121.00739653428911]).addTo(map);
-L.marker([14.601717222527682, 121.00445861945087]).addTo(map);
-L.marker([14.599994724316204, 121.00652338700428]).addTo(map);
-L.marker([14.600018263293464, 121.00685764902158]).addTo(map);
-L.marker([14.600047147507638, 121.00715222015185]).addTo(map);
-L.marker([14.599540180936401, 121.00895419085617]).addTo(map);
-L.marker([14.600018182639744, 121.0092040321922]).addTo(map);
-L.marker([14.600644807067056, 121.0079662844883]).addTo(map);
-L.marker([14.600692018754714, 121.00607008823124]).addTo(map);
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+const streetsInDB = ref(database, `SensorLocations`);
+let sensorsArray = [];
+
+get(streetsInDB).then((snapshot) => {
+  resetTable();
+
+  if (snapshot.exists()) {
+    let locArray = Object.entries(snapshot.val());
+
+    // Use Promise.all to wait for all asynchronous operations to complete
+    Promise.all(
+      locArray.map((arr) => {
+        let sensorCoordinates = arr[1]["coordinates"];
+        createMarker(sensorCoordinates);
+        let sensorLoc = arr[0];
+        let sensorName = arr[1]["location"];
+        let sensorPath = arr[1]["stringPath"];
+        sensorsArray.push({
+          sensorN: sensorLoc,
+          sensor: sensorName,
+          sensorCoords: sensorCoordinates,
+          sensorP: sensorPath,
+        });
+
+        const stations = ref(database, `Sensors/${sensorLoc}`);
+        const latestQuery = query(stations, orderByKey(), limitToLast(1));
+
+        // Use get method instead of onValue
+        return get(latestQuery).then((snap) => {
+          if (snap.exists()) {
+            let stationArray = Object.entries(snap.val());
+            stationArray.forEach((sensor) => {
+              const sensorID = sensor[0];
+              const floodHeight = sensor[1]["height"];
+              const indication = sensor[1]["indication"];
+              const date = sensor[1]["date"];
+              createFloodTable(
+                sensorID,
+                sensorLoc,
+                sensorName,
+                floodHeight,
+                date
+              );
+            });
+          } else {
+            createFloodTable(sensorLoc, sensorLoc, sensorName, "No Data", null);
+          }
+        });
+      })
+    ).then(() => {
+      // All asynchronous operations are completed
+      const allDeleteBtn = document.querySelectorAll(".table-delete-btn");
+      allDeleteBtn.forEach((deleteBtn) => {
+        deleteBtn.addEventListener("click", () => {
+          removeSensor(deleteBtn.getAttribute("data-sensor-id"));
+        });
+      });
+
+      const allEditBtn = document.querySelectorAll(".table-edit-btn");
+      allEditBtn.forEach((editBtn) => {
+        editBtn.addEventListener("click", () => {
+          editSensor(editBtn.getAttribute("data-sensor-id"), sensorsArray);
+        });
+      });
+    });
+  } else {
+    console.log("failed");
+  }
+});
+
+const exportExcel = document.querySelector("#export_excel");
+exportExcel.addEventListener("click", () => {
+  tableToExcel();
+});
+
+const removeSensor = (sensorid) => {
+  const confirmModal = document.querySelector("#confirmSensorDelete");
+
+  confirmModal.addEventListener("click", () => {
+    console.log(sensorid, " is deleted.");
+    const extractSensorInDb = ref(database, `SensorLocations/${sensorid}`);
+    remove(extractSensorInDb)
+      .then(() => {
+        location.reload();
+        console.log(`Sensor: ${sensorid} is deleted`);
+      })
+      .catch((e) => {
+        console.log(e.message);
+      });
+  });
+};
+
+const editSensor = (sensorid, sensorsArray) => {
+  const foundSensor = sensorsArray.find(
+    (sensor) => sensor.sensorN === sensorid
+  );
+
+  if (foundSensor) {
+    const editButton = document.querySelector("#editButtonModal");
+    const nameInput = document.querySelector("#editnameInput");
+    let locationInput = document.querySelector("#editlocationInput");
+    let latitudeInput = document.querySelector("#editlatitude");
+    let longitudeInput = document.querySelector("#editlongitude");
+    let stringPathInput = document.querySelector("#editstringPath");
+
+    // Set initial values
+    nameInput.value = foundSensor.sensorN;
+    locationInput.value = foundSensor.sensor;
+    latitudeInput.value = foundSensor.sensorCoords[0];
+    longitudeInput.value = foundSensor.sensorCoords[1];
+    stringPathInput.value = foundSensor.sensorP;
+
+    editButton.addEventListener("click", () => {
+      // Update values when the button is clicked
+      const updatedLocation = locationInput.value;
+      const updatedLatitude = latitudeInput.value;
+      const updatedLongitude = longitudeInput.value;
+      const updatedStringPath = stringPathInput.value;
+
+      if (
+        updatedLocation !== "" &&
+        updatedLatitude !== "" &&
+        updatedLongitude !== "" &&
+        updatedStringPath !== ""
+      ) {
+        const updatedSensorData = {
+          coordinates: [[updatedLatitude], [updatedLongitude]],
+          location: updatedLocation,
+          stringPath: updatedStringPath,
+        };
+        editToDatabase(nameInput.value, updatedSensorData);
+        // Update the sensor in the database with updatedSensor
+        // addToDatabase(updatedSensor, nameInput.value);
+        // clearInputBoxes();
+      }
+    });
+  }
+};
+
+// Adds the input to the database
+const editToDatabase = (editSensorid, editInput) => {
+  const stationsInDB = ref(database, `SensorLocations/${editSensorid}`);
+  update(stationsInDB, editInput)
+    .then(() => {
+      console.log(`Data updated under ${nameInput}`);
+    })
+    .catch((error) => {
+      console.error("Error updating data:", error);
+    });
+};
+
+const createMarker = (sensorCoordinates) => {
+  let flattenedCoordinates = sensorCoordinates.map((innerArray) =>
+    innerArray[0].toString()
+  );
+  L.marker(flattenedCoordinates).addTo(map);
+};
+
+const resetTable = () => {
+  const table = document.querySelector("#tableBody");
+  table.innerHTML = "";
+};
+
+const createFloodTable = (
+  sensorID,
+  sensorLoc,
+  sensorName,
+  floodHeight,
+  date
+) => {
+  const table = document.getElementById("tableBody");
+
+  let newRow = table.insertRow();
+  let nameCell = newRow.insertCell(0);
+  let locCell = newRow.insertCell(1);
+  let waterCell = newRow.insertCell(2);
+  let dateCell = newRow.insertCell(3);
+  let statusCell = newRow.insertCell(4);
+  let manageCell = newRow.insertCell(5);
+
+  // newRow.id = sensorID;
+  // newRow.setAttribute("flood-level-data-row", "flood-level-data");
+
+  nameCell.textContent = sensorLoc;
+  locCell.textContent = sensorName;
+  waterCell.textContent = floodHeight;
+  if (date !== null) {
+    let difference = getTimeDifference(date);
+    let dayDiffString = `${difference["days"]} ${
+      difference["days"] <= 1 ? `day` : `days`
+    }`;
+    let hoursDiffString = `${difference["hours"]} ${
+      difference["hours"] <= 1 ? `hr` : `hrs`
+    }`;
+    let minsDiffString = `${difference["minutes"]} ${
+      difference["minutes"] <= 1 ? `min` : `mins`
+    }`;
+
+    let timeDifference = `${dayDiffString} ${hoursDiffString} ${minsDiffString} ago`;
+    dateCell.textContent = timeDifference;
+
+    // console.log(timeDifference);
+    statusCell.textContent = `${
+      difference["days"] >= 1 || difference["hours"] >= 12
+        ? "Inactive"
+        : "Active"
+    }`;
+    statusCell.style.backgroundColor =
+      difference["days"] >= 1 || difference["hours"] >= 12
+        ? "#e34234"
+        : "#77dd77";
+  } else {
+    dateCell.textContent = "No data";
+    statusCell.textContent = "Inactive";
+    statusCell.style.backgroundColor = "#e34234";
+  }
+
+  const editButton = document.createElement("button");
+  const deleteButton = document.createElement("button");
+  editButton.textContent = "Edit";
+  deleteButton.textContent = "Delete";
+
+  editButton.classList.add("btn", "btn-primary", "table-edit-btn");
+  deleteButton.classList.add("btn", "btn-primary", "table-delete-btn");
+  editButton.setAttribute("data-bs-toggle", "modal");
+  editButton.setAttribute("data-bs-target", "#editModal");
+  deleteButton.setAttribute("data-bs-toggle", "modal");
+  deleteButton.setAttribute("data-bs-target", "#deleteModal");
+  editButton.setAttribute("data-sensor-id", sensorLoc);
+  deleteButton.setAttribute("data-sensor-id", sensorLoc);
+  manageCell.appendChild(editButton);
+  manageCell.appendChild(deleteButton);
+};
+
+const convertDateTime = (time) => {
+  const today = new Date(time);
+
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  const formattedDate = today.toLocaleDateString("en-US", options);
+
+  // Get the hours and minutes from the Date object
+  var hour = today.getHours();
+  var minutes = today.getMinutes();
+
+  // Format the time
+  var ampm = hour >= 12 ? "pm" : "am";
+  hour = hour % 12;
+  hour = hour ? hour : 12;
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+  const exactDate = `${formattedDate} ${hour}:${minutes}${ampm}`;
+  return exactDate;
+};
+
+const getTimeDifference = (timestamp) => {
+  const now = new Date();
+  const previousDate = new Date(timestamp);
+
+  const timeDifference = now - previousDate;
+  const seconds = Math.floor(timeDifference / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+
+  return {
+    days: days,
+    hours: hours % 24,
+    minutes: minutes % 60,
+    seconds: seconds % 60,
+  };
+};
+
+const addButton = document.querySelector("#addButtonModal");
+
+addButton.addEventListener("click", () => {
+  const nameInput = document.querySelector("#nameInput").value;
+  const locationInput = document.querySelector("#locationInput").value;
+  const latitude = document.querySelector("#latitude").value;
+  const longitude = document.querySelector("#longitude").value;
+  const stringPath = document.querySelector("#stringPath").value;
+  if (
+    nameInput !== "" &&
+    locationInput !== "" &&
+    latitude !== "" &&
+    longitude !== "" &&
+    stringPath !== ""
+  ) {
+    const newSensor = {
+      coordinates: [[latitude], [longitude]],
+      location: locationInput,
+      stringPath: stringPath,
+    };
+    addToDatabase(newSensor, nameInput);
+    clearInputBoxes();
+  }
+});
+
+// Adds the input to the database
+const addToDatabase = (newSensor, nameInput) => {
+  const stationsInDB = ref(database, `SensorLocations/${nameInput}`);
+  set(stationsInDB, newSensor)
+    .then(() => {
+      console.log(`Data added under ${nameInput}`);
+    })
+    .catch((error) => {
+      console.error("Error adding data:", error);
+    });
+};
+
+const clearInputBoxes = () => {
+  document.querySelector("#nameInput").value = "";
+  document.querySelector("#locationInput").value = "";
+  document.querySelector("#latitude").value = "";
+  document.querySelector("#longitude").value = "";
+  document.querySelector("#stringPath").value = "";
+};
+
+const tableToExcel = () => {
+  var table2excel = new Table2Excel();
+  table2excel.export(document.querySelectorAll("table.table"));
+};

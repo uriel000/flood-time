@@ -1,0 +1,7 @@
+{
+  "name": "Flood-Watch",
+  "short_name": "Flood-Watch",
+  "theme_color": "#f9aaa6",
+  "background_color": "#f9aaa6",
+  "display": "standalone"
+}

@@ -1,0 +1,11 @@
+{
+  "name": "flood-watch",
+  "version": "0.0.1",
+  "description": "Flood Watch Capstone Project 2",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "firebase-admin": "^11.11.0",
+    "serialport": "^9.0.1",
+    "socket.io": "^2.0.4"
+  }
+}

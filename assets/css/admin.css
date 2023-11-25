@@ -339,6 +339,7 @@ nav ul li:last-of-type a:hover {
   max-width: 1200px;
   display: grid;
   grid-template-columns: 1fr 2fr;
+  column-gap: 1rem;
   align-content: center;
   justify-content: center;
   padding: 0 2rem;
@@ -349,7 +350,8 @@ nav ul li:last-of-type a:hover {
 
 .admin-container .panels .panel {
   background-color: #00a4c6;
-  height: 70px;
+  height: 60px;
+  max-width: 300px;
   margin-bottom: 10px;
   border-radius: 10px;
   display: flex;
@@ -368,6 +370,11 @@ nav ul li:last-of-type a:hover {
   box-shadow: var(--shadow);
 }
 
+.admin-container table td,
+.admin-container table th {
+  font-size: 1.3rem;
+}
+
 .admin-container .dashboard,
 .manage-user-container {
   display: flex;
@@ -382,7 +389,6 @@ nav ul li:last-of-type a:hover {
 }
 
 .admin-container .dashboard > div {
-  min-width: 200px;
   height: 25vh;
   display: flex;
   align-items: center;
@@ -394,20 +400,27 @@ nav ul li:last-of-type a:hover {
   /* background-color: palegoldenrod; */
   box-shadow: var(--shadow);
 }
-.admin-container .dashboard > div p {
+.admin-container .dashboard > div p,
+.admin-container .dashboard > div a {
   margin-bottom: 0;
-  font-size: 1.2rem;
+  font-size: 2rem;
   color: #3cb371;
 }
 .admin-container .dashboard > div h1 {
   font-size: 1.8rem;
   font-weight: bold;
+  text-align: center;
 }
 
 .admin-container .dashboard .logo i {
   font-size: 5rem;
   color: var(--dark);
 }
+
+.admin-container .report-dashboard > div {
+  width: 500px;
+}
+
 .map {
   display: flex;
   justify-content: center;
@@ -493,6 +506,11 @@ table th {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  margin: 1rem;
+}
+
+.modal-body p {
+  text-align: center;
 }
 
 .modal-body input,
@@ -584,10 +602,39 @@ table th {
   .admin-container {
     grid-template-columns: 1fr;
   }
+  .admin-container .report-dashboard > div {
+    width: 100%;
+  }
+  .admin-container .panels .panel {
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 500px) {
   .charts .charts-card {
     width: 40rem;
   }
+  .admin-container .panels {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  .admin-container .panels .panel {
+    width: 300px;
+  }
 }
+
+/* 
+.admin-container .panels .panel {
+  background-color: #00a4c6;
+  height: 60px;
+  max-width: 300px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-size: 1.5rem;
+  text-decoration: none;
+} */

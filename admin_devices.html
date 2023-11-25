@@ -28,7 +28,6 @@
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
       crossorigin=""
     ></script>
-    <script src="assets/js/adminleaf.js" defer></script>
 
     <!-- font awesome cdn link -->
     <link
@@ -55,7 +54,7 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link" href="login.php"
+                <a class="nav-link" id="signoutbutton"
                   ><i class="fa-solid fa-power-off"></i
                 ></a>
               </li>
@@ -70,7 +69,7 @@
         <a class="panel" href="admin_home.html">Dashboard</a>
         <a class="panel active" href="admin_devices.html">Devices</a>
         <a class="panel" href="admin_users.html">Users</a>
-        <!-- <a class="panel" href="admin_report.html">Report</a> -->
+        <a class="panel" href="admin_report.html">Report</a>
       </div>
       <div class="devices-container">
         <div class="map">
@@ -78,223 +77,20 @@
           <div id="map"></div>
         </div>
         <h1>Manage water sensor devices</h1>
+        <button id="export_excel" style="width: 200px">Export Excel</button>
+
         <table>
           <thead>
             <tr>
               <th>Sensor name</th>
               <th>Location</th>
-              <th>Water Level</th>
+              <th>Latest Data</th>
               <th>Last Update</th>
               <th>Status</th>
               <th>Manage</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>Sensor A</td>
-              <td>Anonas Extension West</td>
-              <td>40</td>
-              <td>9/1/2023</td>
-              <td>Active</td>
-              <td>
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#editModal"
-                >
-                  Edit</button
-                ><button type="button" class="btn btn-primary">Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Sensor B</td>
-              <td>Anonas Street</td>
-              <td>10</td>
-              <td>9/1/2023</td>
-              <td>Active</td>
-              <td>
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#editModal"
-                >
-                  Edit</button
-                ><button type="button" class="btn btn-primary">Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Sensor C</td>
-              <td>C. Arellano Street</td>
-              <td>100</td>
-              <td>9/1/2023</td>
-              <td>Active</td>
-              <td>
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#editModal"
-                >
-                  Edit</button
-                ><button type="button" class="btn btn-primary">Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Sensor D</td>
-              <td>Fortuna Street</td>
-              <td>0</td>
-              <td>9/1/2023</td>
-              <td>Active</td>
-              <td>
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#editModal"
-                >
-                  Edit</button
-                ><button type="button" class="btn btn-primary">Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Sensor E</td>
-              <td>J.H. Panganiban Street</td>
-              <td>30</td>
-              <td>9/1/2023</td>
-              <td>Active</td>
-              <td>
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#editModal"
-                >
-                  Edit</button
-                ><button type="button" class="btn btn-primary">Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Sensor F</td>
-              <td>MAgsaysay Boulevard</td>
-              <td>26</td>
-              <td>9/1/2023</td>
-              <td>Active</td>
-              <td>
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#editModal"
-                >
-                  Edit</button
-                ><button type="button" class="btn btn-primary">Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Sensor G</td>
-              <td>Road 1</td>
-              <td>50</td>
-              <td>9/1/2023</td>
-              <td>Active</td>
-              <td>
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#editModal"
-                >
-                  Edit</button
-                ><button type="button" class="btn btn-primary">Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Sensor H</td>
-              <td>Road 2</td>
-              <td>120</td>
-              <td>9/1/2023</td>
-              <td>Active</td>
-              <td>
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#editModal"
-                >
-                  Edit</button
-                ><button type="button" class="btn btn-primary">Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Sensor I</td>
-              <td>Road 3</td>
-              <td>75</td>
-              <td>9/1/2023</td>
-              <td>Active</td>
-              <td>
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#editModal"
-                >
-                  Edit</button
-                ><button type="button" class="btn btn-primary">Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Sensor J</td>
-              <td>Road 5</td>
-              <td>89</td>
-              <td>9/1/2023</td>
-              <td>Active</td>
-              <td>
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#editModal"
-                >
-                  Edit</button
-                ><button type="button" class="btn btn-primary">Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Sensor K</td>
-              <td>Road 7</td>
-              <td>26</td>
-              <td>9/1/2023</td>
-              <td>Active</td>
-              <td>
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#editModal"
-                >
-                  Edit</button
-                ><button type="button" class="btn btn-primary">Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Sensor L</td>
-              <td>Road 9</td>
-              <td>38</td>
-              <td>9/1/2023</td>
-              <td>Active</td>
-              <td>
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#editModal"
-                >
-                  Edit</button
-                ><button type="button" class="btn btn-primary">Delete</button>
-              </td>
-            </tr>
-          </tbody>
+          <tbody id="tableBody"></tbody>
         </table>
         <!-- Button trigger modal -->
         <button
@@ -349,6 +145,7 @@
             <h1 class="modal-title fs-5" id="exampleModalLabel">
               Add new water sensor
             </h1>
+            <!-- <h1>Add new water sensor</h1> -->
             <button
               type="button"
               class="btn-close"
@@ -357,29 +154,58 @@
             ></button>
           </div>
           <div class="modal-body">
-            <input type="text" name="name" id="" placeholder="Name of sensor" />
             <input
               type="text"
-              name="name"
-              id=""
+              name="nameInput"
+              id="nameInput"
+              required
+              placeholder="Name of sensor."
+            />
+            <input
+              type="text"
+              name="locationInput"
+              id="locationInput"
+              required
               placeholder="Location of sensor"
             />
 
-            <input type="text" name="name" id="" placeholder="Device model" />
-
             <div class="installation">
-              <label for="date">Installation date: </label>
+              <label>Coordinates: </label>
               <input
-                type="date"
-                name="date"
-                id=""
-                placeholder="Installation date"
+                type="number"
+                name="latitude"
+                id="latitude"
+                required
+                placeholder="Latitude"
+              />
+              <br />
+              <input
+                type="number"
+                name="longitude"
+                id="longitude"
+                required
+                placeholder="Longitude"
               />
             </div>
-            <select>
+
+            <div class="installation">
+              <label for="date">Path Coordinates: </label>
+              <input
+                type="text"
+                name="stringPath"
+                id="stringPath"
+                required
+                placeholder="String Path"
+              />
+            </div>
+            <p>
+              You can get coordinates and path
+              <a href="https://geojson.io/#map=2/0/20" target="_blank">Here</a>
+            </p>
+            <!-- <select>
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
-            </select>
+            </select> -->
           </div>
           <div class="modal-footer">
             <button
@@ -389,13 +215,20 @@
             >
               Close
             </button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="addButtonModal"
+              data-bs-dismiss="modal"
+            >
+              Add Sensor
+            </button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Edit Modal -->
     <div
       class="modal fade"
       id="editModal"
@@ -417,29 +250,52 @@
             ></button>
           </div>
           <div class="modal-body">
-            <input type="text" name="name" id="" placeholder="Name of sensor" />
+            <h5>Sensor: <span id="editnameInput"></span></h5>
             <input
               type="text"
-              name="name"
-              id=""
+              name="editlocationInput"
+              id="editlocationInput"
+              required
               placeholder="Location of sensor"
             />
 
-            <input type="text" name="name" id="" placeholder="Device model" />
-
             <div class="installation">
-              <label for="date">Installation date: </label>
+              <label>Coordinates: </label>
               <input
-                type="date"
-                name="date"
-                id=""
-                placeholder="Installation date"
+                type="number"
+                name="editlatitude"
+                id="editlatitude"
+                required
+                placeholder="Latitude"
+              />
+              <br />
+              <input
+                type="number"
+                name="editlongitude"
+                id="editlongitude"
+                required
+                placeholder="Longitude"
               />
             </div>
-            <select>
+
+            <div class="installation">
+              <label for="date">Path Coordinates: </label>
+              <input
+                type="text"
+                name="editstringPath"
+                id="editstringPath"
+                required
+                placeholder="String Path"
+              />
+            </div>
+            <p>
+              You can get coordinates and path
+              <a href="https://geojson.io/#map=2/0/20" target="_blank">Here</a>
+            </p>
+            <!-- <select>
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
-            </select>
+            </select> -->
           </div>
           <div class="modal-footer">
             <button
@@ -449,7 +305,58 @@
             >
               Close
             </button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="editButtonModal"
+              data-bs-dismiss="modal"
+            >
+              Save changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Delete Modal -->
+    <div
+      class="modal fade"
+      id="deleteModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              Delete sensor
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            Do you want to delete this Flood Level Sensor?
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              No
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="confirmSensorDelete"
+              data-bs-dismiss="modal"
+            >
+              Yes
+            </button>
           </div>
         </div>
       </div>
@@ -460,5 +367,33 @@
       integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
       crossorigin="anonymous"
     ></script>
+    <script>
+      let UserCreds = JSON.parse(sessionStorage.getItem("user-creds"));
+      let UserInfo = JSON.parse(sessionStorage.getItem("user-info"));
+
+      let signoutbutton = document.querySelector("#signoutbutton");
+
+      let signout = () => {
+        sessionStorage.removeItem("user-creds");
+        sessionStorage.removeItem("user-info");
+        window.location.href = "login.html";
+      };
+
+      let checkcred = () => {
+        if (!sessionStorage.getItem("user-creds")) {
+          window.location.href = "login.html";
+        } else {
+          const parseUserCreds = UserCreds;
+          const userEmail = parseUserCreds.email;
+          if (userEmail !== "jesrielledesma@gmail.com") {
+            signout();
+          }
+        }
+      };
+      window.addEventListener("load", checkcred);
+      signoutbutton.addEventListener("click", signout);
+    </script>
+    <script src="/assets/js/table2excel.js"></script>
+    <script src="/assets/js/adminleaf.js" type="module"></script>
   </body>
 </html>
