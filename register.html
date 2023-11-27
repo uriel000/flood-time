@@ -45,7 +45,6 @@
             name="mobilenumber"
             id="mobilenumber"
             placeholder="Mobile Number"
-            id="userEmail"
             required
           />
           <label for="password">Password</label>
@@ -122,7 +121,10 @@
             name: username,
             email: email,
             contact: mobilenumber,
+            user_type: "normal",
           });
+          const messageBox = document.querySelector(".message");
+          const messageBoxSpan = document.querySelector(".message span");
           messageBoxSpan.innerHTML = "Registration successful.";
           messageBox.style.display = "flex";
           document.querySelector("#userName").value = "";

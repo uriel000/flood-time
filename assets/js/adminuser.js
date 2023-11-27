@@ -41,10 +41,11 @@ onValue(usersInDB, (snapshot) => {
       const userName = user[1]["name"];
       const userEmail = user[1]["email"];
       const userNumber = user[1]["contact"];
+      const userType = user[1]["user_type"];
 
       //   console.log(`${userID}: ${userName} ${userEmail} ${userNumber}`);
 
-      createUserTable(userID, userName, userEmail, userNumber);
+      createUserTable(userID, userName, userEmail, userNumber, userType);
     });
 
     const deleteBtns = document.querySelectorAll("#userTable .delete-btn");
@@ -74,14 +75,15 @@ const resetTable = () => {
 };
 
 // Create the user table
-const createUserTable = (userID, userName, userEmail, userNumber) => {
+const createUserTable = (userID, userName, userEmail, userNumber, userType) => {
   const table = document.getElementById("tableBody");
 
   let newRow = table.insertRow();
   let nameCell = newRow.insertCell(0);
   let emailCell = newRow.insertCell(1);
   let contactCell = newRow.insertCell(2);
-  let manageCell = newRow.insertCell(3);
+  let usertypeCell = newRow.insertCell(3);
+  let manageCell = newRow.insertCell(4);
   newRow.id = userID;
   //   const editButton = document.createElement("button");
   const deleteButton = document.createElement("button");
@@ -97,6 +99,74 @@ const createUserTable = (userID, userName, userEmail, userNumber) => {
   nameCell.innerHTML = userName;
   emailCell.innerHTML = userEmail;
   contactCell.innerHTML = userNumber;
+  usertypeCell.innerHTML = userType;
   //   manageCell.appendChild(editButton);
   manageCell.appendChild(deleteButton);
+};
+
+const addButton = document.querySelector("#addButtonModal");
+
+addButton.addEventListener("click", (e) => {
+  e.preventDefault();
+  const nameInput = document.querySelector("#new-user-name").value;
+  const emailInput = document.querySelector("#new-user-email").value;
+  const numberInput = document.querySelector("#new-user-number").value;
+  const passwordInput = document.querySelector("#new-user-password").value;
+  const userTypeInput = document.querySelector("#new-user-type").value;
+  if (
+    nameInput !== "" &&
+    emailInput !== "" &&
+    numberInput !== "" &&
+    passwordInput !== "" &&
+    userTypeInput !== ""
+  ) {
+    addToDatabase(
+      nameInput,
+      emailInput,
+      numberInput,
+      passwordInput,
+      userTypeInput
+    );
+    // clearInputBoxes();
+  }
+});
+
+// Adds the input to the database
+const addToDatabase = (
+  nameInput,
+  emailInput,
+  numberInput,
+  passwordInput,
+  userTypeInput
+) => {
+  createUserWithEmailAndPassword(auth, emailInput, passwordInput)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      set(ref(database, "Users/" + user.uid), {
+        name: nameInput,
+        email: emailInput,
+        contact: numberInput,
+        user_type: userTypeInput,
+      });
+      const messageBox = document.querySelector(".message");
+      const messageBoxSpan = document.querySelector(".message span");
+      messageBoxSpan.innerHTML = "Registration successful.";
+      messageBox.style.display = "flex";
+      document.querySelector("#new-user-name").value = "";
+      document.querySelector("#new-user-email").value = "";
+      document.querySelector("#new-user-number").value = "";
+      document.querySelector("#new-user-password").value = "";
+      document.querySelector("#new-user-type").value = "";
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const messageBox = document.querySelector(".message");
+      const messageBoxSpan = document.querySelector(".message span");
+      const errorCodeWithoutPrefix = errorCode.replace("auth/", "");
+      const formattedErrorCode = errorCodeWithoutPrefix
+        .replace(/-/g, " ") // Replace dashes with spaces
+        .replace(/\b\w/g, (firstChar) => firstChar.toUpperCase());
+      messageBoxSpan.innerHTML = formattedErrorCode;
+      messageBox.style.display = "flex";
+    });
 };

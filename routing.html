@@ -3,6 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Map</title>
+
+    <link rel="icon" type="image/x-icon" href="assets/images/icon.png" />
 
     <!-- Leaflit -->
     <link
@@ -16,83 +19,116 @@
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
       crossorigin=""
     ></script>
+
     <!-- Leaflet Routing Machine  CSS-->
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css"
     />
+    <!-- Bootstrap link -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
 
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-      }
-    </style>
-    <title>Document</title>
+    <!-- font awesome cdn link -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- Geocoder-->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"
+    />
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
   </head>
   <body>
-    <div id="map" style="width: 100%; height: 100vh"></div>
-  </body>
-  <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <div id="map" style="height: 70vh; width: 100%"></div>
+    <div id="all">HOOY3JWEOPIFOEIHIO</div>
 
-  <script>
-    // Polyline mapping
-    const map = L.map("map").setView(
-      [14.57031533402106, 120.99156564740088],
-      17
-    );
-    const attribution = "";
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 
-    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      maxZoom: 19,
-      attribution: "© OpenStreetMap",
-    }).addTo(map);
+    <!-- Bootstrap javascript link -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+      crossorigin="anonymous"
+    ></script>
 
-    // var marker = L.marker([14.57031533402106, 120.99156564740088]).addTo(map);
-    // var latlngs = [
-    //   [14.563586035304027, 120.99475618985656],
-    //   [14.57031533402106, 120.99156564740088],
-    //   [14.576564715923581, 120.98806937928339],
-    //   [14.582535058815736, 120.98462986820749],
-    // ];
+    <script>
+      // Polyline mapping
+      const map = L.map("map").setView(
+        [14.57031533402106, 120.99156564740088],
+        17
+      );
+      const attribution = "";
 
-    let allCoords = [];
-    var marker = L.marker([14.582535058815736, 120.98462986820749]).addTo(map);
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: "© OpenStreetMap",
+      }).addTo(map);
 
-    map.on("click", (e) => {
-      console.log(e.latlng.lat);
-      console.log(e.latlng.lng);
-      var secondMarker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
+      function createButton(label, container) {
+        var btn = L.DomUtil.create("button", "", container);
+        btn.setAttribute("type", "button");
+        btn.classList.add("btn", "btn-primary", "map-btn");
+        btn.innerHTML = label;
+        return btn;
+      }
 
-      L.Routing.control({
+      let allCoordinates = [];
+
+      var control = L.Routing.control({
         waypoints: [
           L.latLng(14.563586035304027, 120.99475618985656),
-          L.latLng(e.latlng.lat, e.latlng.lng),
+          L.latLng(14.582535058815736, 120.98462986820749),
         ],
+        show: false,
+        position: "topright",
         lineOptions: {
           styles: [
-            { color: "orange", opacity: 1, weight: 8 }, // Adjust the weight property for thickness
+            { color: "green", opacity: 1, weight: 10 }, // Adjust the weight property for thickness
           ],
         },
+
+        geocoder: L.Control.Geocoder.nominatim(),
       })
         .on("routesfound", (e) => {
           console.log(e);
           e.routes[0].coordinates.forEach((coord, index) => {
-            setTimeout(() => {
-              marker.setLatLng([coord.lat, coord.lng]);
-            }, 100 * index);
+            let oneCoordinate = [coord.lat, coord.lng];
+            allCoordinates.push(oneCoordinate);
+            console.log(allCoordinates);
           });
         })
         .addTo(map);
-      console.log(allCoords);
-    });
-    function createButton(label, container) {
-      var btn = L.DomUtil.create("button", "", container);
-      btn.setAttribute("type", "button");
-      btn.innerHTML = label;
-      return btn;
-    }
-  </script>
 
-  <script src="./Control.Geocoder.js"></script>
+      map.on("click", function (e) {
+        var container = L.DomUtil.create("div"),
+          startBtn = createButton("Start from this location", container),
+          destBtn = createButton("Go to this location", container);
+
+        L.popup().setContent(container).setLatLng(e.latlng).openOn(map);
+
+        L.DomEvent.on(startBtn, "click", function () {
+          control.spliceWaypoints(0, 1, e.latlng);
+          map.closePopup();
+        });
+
+        L.DomEvent.on(destBtn, "click", function () {
+          control.spliceWaypoints(
+            control.getWaypoints().length - 1,
+            1,
+            e.latlng
+          );
+          map.closePopup();
+        });
+      });
+      // console.log(allCoordinates);
+    </script>
+  </body>
 </html>

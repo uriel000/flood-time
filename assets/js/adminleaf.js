@@ -1,10 +1,36 @@
-const map = L.map("map").setView([14.57031533402106, 120.99156564740088], 17);
+const map = L.map("map").setView([14.57031533402106, 120.99156564740088], 13);
 const attribution = "";
 
 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  maxZoom: 14,
+  maxZoom: 25,
   attribution: "© OpenStreetMap",
 }).addTo(map);
+
+var map2 = L.map("mapContainer").setView(
+  [14.57031533402106, 120.99156564740088],
+  13
+);
+var map3 = L.map("mapContainer2").setView(
+  [14.57031533402106, 120.99156564740088],
+  13
+);
+
+document.addEventListener("DOMContentLoaded", function () {
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "© OpenStreetMap contributors",
+  }).addTo(map2);
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "© OpenStreetMap contributors",
+  }).addTo(map3);
+
+  $("#exampleModal").on("shown.bs.modal", function () {
+    map2.invalidateSize();
+    map3.invalidateSize();
+  });
+
+  // Close the map modal when the modal is closed
+  $("#exampleModalLabel").on("hidden.bs.modal", function () {});
+});
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
@@ -110,13 +136,25 @@ exportExcel.addEventListener("click", () => {
   tableToExcel();
 });
 
+const tableToExcel = () => {
+  var table2excel = new Table2Excel();
+  table2excel.export(document.querySelectorAll("table.export-table"));
+};
+
 const removeSensor = (sensorid) => {
   const confirmModal = document.querySelector("#confirmSensorDelete");
 
   confirmModal.addEventListener("click", () => {
-    console.log(sensorid, " is deleted.");
     const extractSensorInDb = ref(database, `SensorLocations/${sensorid}`);
     remove(extractSensorInDb)
+      .then(() => {
+        console.log(`Sensor: ${sensorid} is deleted`);
+      })
+      .catch((e) => {
+        console.log(e.message);
+      });
+    const extractSensorDataInDb = ref(database, `Sensors/${sensorid}`);
+    remove(extractSensorDataInDb)
       .then(() => {
         location.reload();
         console.log(`Sensor: ${sensorid} is deleted`);
@@ -138,32 +176,31 @@ const editSensor = (sensorid, sensorsArray) => {
     let locationInput = document.querySelector("#editlocationInput");
     let latitudeInput = document.querySelector("#editlatitude");
     let longitudeInput = document.querySelector("#editlongitude");
-    let stringPathInput = document.querySelector("#editstringPath");
+    // let stringPathInput = document.querySelector("#editstringPath");
 
     // Set initial values
     nameInput.value = foundSensor.sensorN;
     locationInput.value = foundSensor.sensor;
     latitudeInput.value = foundSensor.sensorCoords[0];
     longitudeInput.value = foundSensor.sensorCoords[1];
-    stringPathInput.value = foundSensor.sensorP;
+    // stringPathInput.value = foundSensor.sensorP;
 
     editButton.addEventListener("click", () => {
       // Update values when the button is clicked
       const updatedLocation = locationInput.value;
       const updatedLatitude = latitudeInput.value;
       const updatedLongitude = longitudeInput.value;
-      const updatedStringPath = stringPathInput.value;
+      // const updatedStringPath = stringPathInput.value;
 
       if (
         updatedLocation !== "" &&
         updatedLatitude !== "" &&
-        updatedLongitude !== "" &&
-        updatedStringPath !== ""
+        updatedLongitude !== ""
+        // updatedStringPath !== ""
       ) {
         const updatedSensorData = {
           coordinates: [[updatedLatitude], [updatedLongitude]],
           location: updatedLocation,
-          stringPath: updatedStringPath,
         };
         editToDatabase(nameInput.value, updatedSensorData);
         // Update the sensor in the database with updatedSensor
@@ -306,6 +343,27 @@ const getTimeDifference = (timestamp) => {
   };
 };
 
+let marker2 = null; // Variable to store the marker on map2
+
+map2.on("click", (e) => {
+  const latitude = (document.querySelector("#latitude").value = e.latlng.lat);
+  const longitude = (document.querySelector("#longitude").value = e.latlng.lng);
+
+  if (marker2) {
+    map2.removeLayer(marker2);
+  }
+  marker2 = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map2);
+});
+
+let allLocations = []; // Variable to store the marker on map2
+
+map3.on("click", (e) => {
+  allLocations.push([e.latlng.lat, e.latlng.lng]);
+  const stringPath = (document.querySelector("#stringPath").value =
+    allLocations);
+  L.marker([e.latlng.lat, e.latlng.lng]).addTo(map3);
+});
+
 const addButton = document.querySelector("#addButtonModal");
 
 addButton.addEventListener("click", () => {
@@ -324,7 +382,7 @@ addButton.addEventListener("click", () => {
     const newSensor = {
       coordinates: [[latitude], [longitude]],
       location: locationInput,
-      stringPath: stringPath,
+      stringPath: allLocations,
     };
     addToDatabase(newSensor, nameInput);
     clearInputBoxes();
@@ -349,9 +407,4 @@ const clearInputBoxes = () => {
   document.querySelector("#latitude").value = "";
   document.querySelector("#longitude").value = "";
   document.querySelector("#stringPath").value = "";
-};
-
-const tableToExcel = () => {
-  var table2excel = new Table2Excel();
-  table2excel.export(document.querySelectorAll("table.table"));
 };

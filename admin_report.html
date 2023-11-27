@@ -23,31 +23,50 @@
     />
   </head>
   <body>
-    <nav class="navbar fixed-top navbar-expand-lg">
+    <div
+      class="offcanvas offcanvas-end"
+      tabindex="-1"
+      id="offcanvasRight"
+      aria-labelledby="offcanvasRightLabel"
+    >
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Profile</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="offcanvas-body">
+        <p>Username: <span id="off-username"></span></p>
+        <p>Email: <span id="off-email"></span></p>
+        <!-- <p>Number:</p> -->
+        <button
+          id="signoutbutton"
+          type="button"
+          class="btn btn-danger"
+          onclick="signout()"
+        >
+          Logout
+        </button>
+      </div>
+    </div>
+    <nav class="navbar fixed-top">
       <div class="container-fluid">
         <a class="navbar-brand logo" href="admin_home.html">Admin</a>
-        <div class="nav-links">
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link" id="signoutbutton"
-                  ><i class="fa-solid fa-power-off"></i
-                ></a>
-              </li>
-            </ul>
-          </div>
-        </div>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#offcanvasRight"
+              aria-controls="offcanvasRight"
+            >
+              <i class="fa-solid fas fa-user"></i>
+            </a>
+          </li>
+        </ul>
       </div>
     </nav>
 
@@ -111,8 +130,22 @@
       crossorigin="anonymous"
     ></script>
     <script>
-      let UserCreds = JSON.parse(sessionStorage.getItem("user-creds"));
-      let UserInfo = JSON.parse(sessionStorage.getItem("user-info"));
+      function getUserInfo() {
+        return JSON.parse(sessionStorage.getItem("user-info")) || {};
+      }
+
+      function getUserCreds() {
+        return JSON.parse(sessionStorage.getItem("user-creds")) || {};
+      }
+
+      // Function to display user info on the page
+      function displayUserInfo() {
+        const userInfo = getUserInfo();
+        document.querySelector("#off-username").textContent =
+          userInfo.name || "Guest";
+        document.querySelector("#off-email").textContent =
+          userInfo.email || "N/A";
+      }
 
       let signoutbutton = document.querySelector("#signoutbutton");
 
@@ -126,14 +159,18 @@
         if (!sessionStorage.getItem("user-creds")) {
           window.location.href = "login.html";
         } else {
-          const parseUserCreds = JSON.parse(UserCreds);
-          const userEmail = parseUserCreds.email;
-          if (userEmail !== "jesrielledesma@gmail.com") {
+          const userCreds = getUserInfo();
+          if (userCreds.user_type !== "admin") {
             signout();
           }
         }
       };
-      window.addEventListener("load", checkcred);
+
+      window.addEventListener("load", () => {
+        checkcred();
+        displayUserInfo(); // Display user info on page load
+      });
+
       signoutbutton.addEventListener("click", signout);
     </script>
   </body>

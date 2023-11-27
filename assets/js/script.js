@@ -231,7 +231,7 @@ const safetyRouteMap = (allSensors) => {
           // console.log(oneSensorArray);
           if (oneSensorArray.includes(arr[0])) {
             let station = arr[0];
-            let path = JSON.parse(arr[1]["stringPath"]);
+            let path = arr[1]["stringPath"];
             let coord = arr[1]["coordinates"];
             let height = oneSensorArray[1]["height"];
             createPolyline(station, path, height, coord);

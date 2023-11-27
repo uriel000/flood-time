@@ -115,13 +115,14 @@
                   JSON.stringify({
                     name: snapshot.val().name,
                     email: snapshot.val().email,
-                    contact: snapshot.val.contact,
+                    contact: snapshot.val().contact,
+                    user_type: snapshot.val().user_type,
                   })
                 );
                 sessionStorage.setItem("user-creds", JSON.stringify(user));
-                if (email === "jesrielledesma@gmail.com") {
+                if (snapshot.val().user_type === "admin") {
                   window.location.href = "admin_home.html";
-                } else {
+                } else if (snapshot.val().user_type === "normal") {
                   window.location.href = "home.html";
                 }
               }
