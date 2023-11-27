@@ -549,6 +549,50 @@ table th {
   padding-left: 1rem;
   width: 100%;
 }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  overflow-x: auto;
+  display: block;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+@media screen and (max-width: 570px) {
+  table {
+    overflow-x: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  th,
+  td {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  tr {
+    width: 100%;
+  }
+
+  th,
+  td:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+}
 
 @media (max-width: 991px) {
   html {

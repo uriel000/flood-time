@@ -1,3 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=Shrikhand&family=Space+Mono:wght@400;700&display=swap");
+
+:root {
+  --first: "Shrikhand", cursive;
+  --second: "Space Mono", monospace;
+  --radius: 10px;
+  --white: #ffff;
+  --blue: #00a4c6;
+  --dark: #0e1735;
+  --pink: #f9aaa6;
+  --shadow: 4px 4px 8px -1px rgba(0, 0, 0, 1);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -18,6 +31,22 @@
   border: none;
   font-style: sans-serif;
 }
+h2 {
+  font-family: var(--first);
+  font-size: 2rem;
+  margin-bottom: 0;
+  color: #f9aaa6;
+}
+img {
+  width: 50px;
+}
+
+.headerTop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
 
 button {
   background-color: #4caf50;
@@ -29,10 +58,6 @@ button {
   color: white;
 }
 
-h2 {
-  text-align: center;
-  color: #24650b;
-}
 .header {
   display: flex;
   justify-content: space-between;
