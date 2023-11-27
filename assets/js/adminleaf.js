@@ -216,6 +216,7 @@ const editToDatabase = (editSensorid, editInput) => {
   const stationsInDB = ref(database, `SensorLocations/${editSensorid}`);
   update(stationsInDB, editInput)
     .then(() => {
+      location.reload();
       console.log(`Data updated under ${nameInput}`);
     })
     .catch((error) => {
@@ -291,8 +292,8 @@ const createFloodTable = (
 
   const editButton = document.createElement("button");
   const deleteButton = document.createElement("button");
-  editButton.textContent = "Edit";
-  deleteButton.textContent = "Delete";
+  editButton.innerHTML = "<i class='fa-solid fa-pen'></i>";
+  deleteButton.innerHTML = "<i class='fa-solid fa-trash'></i>";
 
   editButton.classList.add("btn", "btn-primary", "table-edit-btn");
   deleteButton.classList.add("btn", "btn-primary", "table-delete-btn");

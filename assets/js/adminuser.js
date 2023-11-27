@@ -9,6 +9,7 @@ import {
   set,
   ref,
   push,
+  update,
   onValue,
   remove,
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
@@ -28,6 +29,7 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const usersInDB = ref(database, "Users/");
 const auth = getAuth(app);
+let usersArray = [];
 
 // Display all users
 onValue(usersInDB, (snapshot) => {
@@ -42,6 +44,13 @@ onValue(usersInDB, (snapshot) => {
       const userEmail = user[1]["email"];
       const userNumber = user[1]["contact"];
       const userType = user[1]["user_type"];
+      usersArray.push({
+        userid: user[0],
+        name: user[1]["name"],
+        email: user[1]["email"],
+        contact: user[1]["contact"],
+        user_type: user[1]["user_type"],
+      });
 
       //   console.log(`${userID}: ${userName} ${userEmail} ${userNumber}`);
 
@@ -52,18 +61,15 @@ onValue(usersInDB, (snapshot) => {
 
     deleteBtns.forEach((del) => {
       del.addEventListener("click", () => {
-        // let adminConfirmed = window.confirm("Delete this user? ");
+        deleteUser(del.getAttribute("data-user-id"), usersArray);
+        // window.location.href = "https://console.firebase.google.com/";
+      });
+    });
 
-        // if (adminConfirmed) {
-        //   let user_id = del.getAttribute("data-user-id");
-        //   let exactLocationOfStoryInDb = ref(database, `Users/${user_id}`);
-        //   remove(exactLocationOfStoryInDb);
-        //   app.auth().deleteUser(user);
-        //   alert("User deleted successfully.");
-        // } else {
-        //   console.log(del.getAttribute("data-user-id"));
-        // }
-        window.location.href = "https://console.firebase.google.com/";
+    const editBtns = document.querySelectorAll("#userTable .edit-btn");
+    editBtns.forEach((edituser) => {
+      edituser.addEventListener("click", () => {
+        editUser(edituser.getAttribute("data-user-id"), usersArray);
       });
     });
   }
@@ -85,22 +91,24 @@ const createUserTable = (userID, userName, userEmail, userNumber, userType) => {
   let usertypeCell = newRow.insertCell(3);
   let manageCell = newRow.insertCell(4);
   newRow.id = userID;
-  //   const editButton = document.createElement("button");
+  const editButton = document.createElement("button");
   const deleteButton = document.createElement("button");
-  //   editButton.classList.add("btn", "btn-primary");
-  //   editButton.textContent = "Edit";
-  deleteButton.innerHTML = "<i class='fa-solid fa-pen'></i>";
+  editButton.classList.add("btn", "btn-primary", "edit-btn");
+  editButton.innerHTML = "<i class='fa-solid fa-pen'></i>";
+  deleteButton.innerHTML = "<i class='fa-solid fa-trash'></i>";
   deleteButton.classList.add("btn", "btn-primary", "delete-btn");
-  //   editButton.setAttribute("data-bs-toggle", "modal");
-  //   editButton.setAttribute("data-bs-target", "#editModal");
-  //   editButton.setAttribute("data-user-id", userID);
+  editButton.setAttribute("data-bs-toggle", "modal");
+  editButton.setAttribute("data-bs-target", "#editModal");
+  deleteButton.setAttribute("data-bs-toggle", "modal");
+  deleteButton.setAttribute("data-bs-target", "#deleteModal");
+  editButton.setAttribute("data-user-id", userID);
   deleteButton.setAttribute("data-user-id", userID);
 
   nameCell.innerHTML = userName;
   emailCell.innerHTML = userEmail;
   contactCell.innerHTML = userNumber;
   usertypeCell.innerHTML = userType;
-  //   manageCell.appendChild(editButton);
+  manageCell.appendChild(editButton);
   manageCell.appendChild(deleteButton);
 };
 
@@ -169,4 +177,77 @@ const addToDatabase = (
       messageBoxSpan.innerHTML = formattedErrorCode;
       messageBox.style.display = "flex";
     });
+};
+
+const editUser = (user_id, usersArray) => {
+  const foundUser = usersArray.find((user) => user.userid === user_id);
+
+  if (foundUser) {
+    const editButton = document.querySelector("#editButtonModal");
+    const nameInput = document.querySelector("#edit-user-name");
+    let emailInput = document.querySelector("#edit-user-email");
+    let contactInput = document.querySelector("#edit-user-number");
+    let typeInput = document.querySelector("#edit-user-type");
+    // let stringPathInput = document.querySelector("#editstringPath");
+
+    // Set initial values
+    nameInput.value = foundUser.name;
+    emailInput.value = foundUser.email;
+    contactInput.value = foundUser.contact;
+    typeInput.value = foundUser.user_type;
+    // stringPathInput.value = foundSensor.sensorP;
+
+    editButton.addEventListener("click", () => {
+      // Update values when the button is clicked
+      const updatedName = nameInput.value;
+      const updatedEmail = emailInput.value;
+      const updatedContact = contactInput.value;
+      const updatedUsertype = typeInput.value;
+      // const updatedStringPath = stringPathInput.value;
+
+      if (
+        updatedName !== "" &&
+        updatedEmail !== "" &&
+        updatedContact !== "" &&
+        updatedUsertype !== ""
+      ) {
+        const updatedUserData = {
+          name: updatedName,
+          email: updatedEmail,
+          contact: updatedContact,
+          user_type: updatedUsertype,
+        };
+        editToDatabase(user_id, updatedUserData);
+        // Update the sensor in the database with updatedSensor
+        // addToDatabase(updatedSensor, nameInput.value);
+        // clearInputBoxes();
+      }
+    });
+  }
+};
+
+const editToDatabase = (user_id, updatedUserData) => {
+  const stationsInDB = ref(database, `Users/${user_id}`);
+  update(stationsInDB, updatedUserData)
+    .then(() => {
+      console.log(`Data updated under ${user_id}`);
+    })
+    .catch((error) => {
+      console.error("Error updating data:", error);
+    });
+};
+
+const deleteUser = (user_id, usersArray) => {
+  const foundUser = usersArray.find((user) => user.userid === user_id);
+  if (foundUser) {
+    const deleteBtn = document.querySelector("#deleteButtonModal");
+    let userdeleteName = document.querySelector("#nameOfuser");
+    userdeleteName.textContent = `"${foundUser.name}"`;
+
+    deleteBtn.addEventListener("click", () => {
+      let exactLocationOfStoryInDb = ref(database, `Users/${user_id}`);
+      remove(exactLocationOfStoryInDb);
+      app.auth().deleteUser(user_id);
+    });
+  }
 };

@@ -211,6 +211,136 @@
       </div>
     </div>
 
+    <!-- edit modal -->
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="editModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              Edit user information
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form action="">
+              <label for="edit-user-name">Name</label>
+              <input
+                type="text"
+                name="edit-user-name"
+                id="edit-user-name"
+                placeholder="Name"
+              />
+
+              <label for="edit-user-email">Email</label>
+              <input
+                type="text"
+                name="edit-user-email"
+                id="edit-user-email"
+                placeholder="Email"
+              />
+              <label for="edit-user-number">Mobile Number</label>
+              <input
+                type="text"
+                name="edit-user-number"
+                id="edit-user-number"
+                placeholder="Mobile Number"
+                required
+              />
+              <label for="edit-user-password">Password</label>
+              <input
+                type="password"
+                disabled
+                name="edit-user-password"
+                id="edit-user-password"
+                placeholder="Password"
+              />
+              <label for="edit-user-type">User Type</label>
+              <select id="edit-user-type">
+                <option value="normal">Normal</option>
+                <option value="admin">Admin</option>
+              </select>
+              <!-- <select>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select> -->
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="editButtonModal"
+              data-bs-dismiss="modal"
+            >
+              Edit user
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      tabindex="-1"
+      id="deleteModal"
+      aria-labelledby="deleteModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Delete User</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p>
+              Are you sure you want to delete user <span id="nameOfuser"></span>
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="deleteButtonModal"
+              data-bs-dismiss="modal"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Bootstrap javascript link -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
