@@ -50,12 +50,13 @@ var control = L.Routing.control({
     ],
   },
   geocoder: L.Control.Geocoder.nominatim(),
+  container: "custom-routing-panel",
 }).addTo(map);
 
 map.on("click", function (e) {
   var container = L.DomUtil.create("div"),
-    startBtn = createButton("Start from this location", container),
-    destBtn = createButton("Go to this location", container);
+    startBtn = createButton("Start", container),
+    destBtn = createButton("Destination", container);
 
   L.popup().setContent(container).setLatLng(e.latlng).openOn(map);
 
@@ -185,3 +186,17 @@ const createPolyline = (station, path, height, coord) => {
     .setContent(message)
     .addTo(map);
 };
+
+// Get reference to the existing containers
+const alternativesContainer = document.querySelector(
+  ".leaflet-routing-alternatives-container"
+);
+const geocodersContainer = document.querySelector(".leaflet-routing-geocoders");
+
+// Get reference to the new container
+const customRoutingPanel = document.getElementById("custom-routing-panel");
+
+// Move elements to the new container
+customRoutingPanel.appendChild(geocodersContainer);
+
+customRoutingPanel.appendChild(alternativesContainer);

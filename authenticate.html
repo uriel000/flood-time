@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <title>Login</title>
+    <link rel="icon" type="image/x-icon" href="assets/images/icon.png" />
+    <!-- font awesome cdn link -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <script src="./assets/js/authenticate.js" defer></script>
+  </head>
+  <body>
+    <div class="message">
+      <span>'Hello'</span>
+      <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
+    </div>
+    <div class="login-container">
+      <div class="form">
+        <h1>Welcome to <span class="title">Flood-Watch</span></h1>
+        <p class="second-title">Check your Email for OTP</p>
+        <div id="authenticationForm">
+          <input
+            type="submit"
+            value="Send OTP"
+            class="btn"
+            name="sendOtpBtn"
+            id="sendOtpBtn"
+          />
+          <label for="userEmail">Email</label>
+          <input
+            type="email"
+            name="userEmail"
+            placeholder="youremail@email.com"
+            disabled
+            id="userEmail"
+          />
+          <label for="otp">OTP</label>
+          <input
+            type="text"
+            name="otp"
+            id="otp"
+            placeholder="Enter OTP"
+            required
+          />
+          <input
+            type="submit"
+            value="Submit"
+            class="btn"
+            name="submitOtpBtn"
+            id="submitOtpBtn"
+          />
+        </div>
+
+        <p>
+          Do not have an account yet? <a href="register.html">Register now</a>
+        </p>
+      </div>
+      <div class="rain">
+        <img src="assets/images/background.jpg" alt="" />
+      </div>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      function getUserInfo() {
+        return JSON.parse(sessionStorage.getItem("user-info")) || {};
+      }
+
+      // Function to display user info on the page
+      function displayUserInfo() {
+        const userInfo = getUserInfo();
+
+        document.querySelector("#userEmail").value = userInfo.email || "N/A";
+      }
+
+      let checkcred = () => {
+        if (!sessionStorage.getItem("user-creds")) {
+          window.location.href = "login.html";
+        }
+      };
+
+      window.addEventListener("load", () => {
+        checkcred();
+        displayUserInfo();
+      });
+    </script>
+  </body>
+</html>

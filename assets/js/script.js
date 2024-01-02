@@ -193,13 +193,15 @@ const createFloodTable = (
   let cmCell = newRow.insertCell(1);
   let inchCell = newRow.insertCell(2);
   let depthCell = newRow.insertCell(3);
-  let statusCell = newRow.insertCell(4);
+  let timeCell = newRow.insertCell(4);
+  let statusCell = newRow.insertCell(5);
   newRow.id = sensorID;
   // newRow.setAttribute("flood-level-data-row", "flood-level-data");
 
   locCell.innerHTML = stationName;
   cmCell.innerHTML = Math.ceil(floodHeight);
   inchCell.innerHTML = Math.ceil(floodHeight / 2.54);
+  timeCell.innerHTML = convertDateTime(date);
   depthCell.innerHTML = indication;
   let statusIndication = "";
   if (floodHeight >= 20.32 && floodHeight < 33.02) {

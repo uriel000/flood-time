@@ -37,12 +37,13 @@ let sensorData = {};
 let oldSensorData = [0, 30];
 
 parser.on("data", function (data) {
-  console.log(data);
-  data = parseInt(data);
-  const status = getStatus(data);
+  let exactData = Math.abs(data - 70);
+  console.log(exactData);
+  data = parseInt(exactData);
+  const status = getStatus(exactData);
 
   sensorData = {
-    height: data,
+    height: exactData,
     date: Date(Date.now()),
     indication: status,
   };
@@ -103,8 +104,8 @@ usersRef.once("value", (snapshot) => {
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "jesrielledesma@gmail.com", // Replace with your Gmail address
-    pass: "iayd mdwa epun polc", // Replace with your Gmail password or generate an app password
+    user: "jesrielledesma@gmail.com",
+    pass: "iayd mdwa epun polc",
   },
 });
 
@@ -114,38 +115,61 @@ const createEmail = () => {
   let height = sensorData.height;
   let indication = sensorData.indication;
   let date = sensorData.date;
-  let message = "";
+  let alertMessage = "";
+  let detailMessage = "";
   if (height >= 33.02 && height < 66.04) {
-    message = `
-  Good day!<br/><br/>
-  We want to alert you about the current flood situation at ${stationName}.  As of ${date}.<br/>
-  <br/>
-  Alert: Moderate Flooding<br/>
-  Location: ${stationName}<br/>
-  Flood Height: ${height} cm<br/>
-  Flood Level: ${indication}<br/>
-  Details: It is not safe to travel here for light vehicles.<br/><br/>
-  Your safety is our top priority.<br/>
-  If you have any concerns or need assistance, feel free to contact us.<br/><br/>
-  Stay Safe,<br/>
-  Flood-Watch Team
-    `;
+    alertMessage = "Moderate Flooding";
+    detailMessage = "It is not safe to travel here for light vehicles.";
   } else if (height >= 66.04) {
-    message = `
-  Good day!<br/><br/>
-  We want to alert you about the current flood situation at ${stationName}. As of ${date}.<br/>
-  <br/>
-  Alert: High Flooding<br/>
-  Location: ${stationName}<br/>
-  Flood Height: ${height} cm<br/>
-  Flood Level: ${indication}<br/>
-  Details: It is not safe to travel here for all types of vehicles.<br/><br/>
-  Your safety is our top priority.<br/>
-  If you have any concerns or need assistance, feel free to contact us.<br/><br/>
-  Stay Safe,<br/>
-  Flood-Watch Team
-    `;
+    alertMessage = "High Flooding";
+    detailMessage = "It is not safe to travel here for all types of vehicles.";
   }
+  let message = `
+  <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333; margin: 0; padding: 0;">
+    <table width="100%" cellspacing="0" cellpadding="0" bgcolor="#f4f4f4" style="margin: 0; padding: 20px;">
+        <tr>
+            <td align="center">
+                <table width="600" cellspacing="0" cellpadding="0" bgcolor="#ffffff" style="border-radius: 10px; overflow: hidden; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+                    <!-- Header -->
+                    <tr>
+                        <td style="padding: 20px; text-align: center; background-color: #f47777; color: #ffffff;">
+                            <h1 style="margin: 0;">Flood-Watch Alert</h1>
+                        </td>
+                    </tr>
+                    <!-- Content -->
+                    <tr>
+                        <td style="padding: 20px;">
+                            <p>Good day!</p>
+                            <p>We want to alert you about the current flood situation at ${stationName}. As of ${date}.</p>
+                            <br/>
+                            <strong>Alert Details:</strong>
+                            <ul>
+                                <li>Alert: ${alertMessage}</li>
+                                <li>Location: ${stationName}</li>
+                                <li>Flood Height: ${height} cm</li>
+                                <li>Flood Level: ${indication}</li>
+                                <li>Details: ${detailMessage}</li>
+                            </ul>
+                            <br/>
+                            <p>Your safety is our top priority. If you have any concerns or need assistance, feel free to contact us.</p>
+                            <br/>
+                            <p>Stay Safe,</p>
+                            <p>Flood-Watch Team</p>
+                        </td>
+                    </tr>
+                    <!-- Footer -->
+                    <tr>
+                        <td style="padding: 20px; text-align: center; background-color: #f47777; color: #ffffff;">
+                            <p style="margin: 0;">This email was sent from Flood-Watch. Please do not reply to this email.</p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+  `;
+
   const messageHead = {
     from: "jesrielledesma@gmail.com",
     to: emailString, // Join the array into a comma-separated string
