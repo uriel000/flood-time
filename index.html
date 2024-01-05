@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./assets/css/landing.css" />
+    <link rel="icon" type="image/x-icon" href="assets/images/icon.png" />
+    <title>Flood-Watch</title>
+  </head>
+  <body>
+    <section>
+      <div class="circle"></div>
+      <header>
+        <a href="#" class="logo"
+          ><img src="./assets/images/icon.png" alt="" />
+        </a>
+        <ul>
+          <li><a href="login.html">Sign In</a></li>
+          <li><a href="register.html">Sign Up</a></li>
+        </ul>
+      </header>
+      <div class="content">
+        <div class="textBox">
+          <h2>
+            <span>Flood-Watch</span> A Real-Time Web Based Flood Monitoring
+            System using IoT with Route Information
+          </h2>
+          <p>
+            Flood-Watch revolutionizes flood monitoring in the Philippines,
+            addressing the increasing severity of floods caused by climate
+            change and urbanization. Leveraging IoT technology and integrated
+            route information, we provide accurate and timely flood data.
+          </p>
+          <a href="register.html">Sign Up now</a>
+        </div>
+        <div class="imgBox">
+          <img src="./assets/images/thumb1.png" alt="" class="flood-watch" />
+        </div>
+      </div>
+      <ul class="thumb">
+        <li>
+          <img
+            src="./assets/images/icon1.png"
+            alt=""
+            onclick="imgSlider('thumb1.png'); changeCircleColor('#f9aaa6')"
+          />
+        </li>
+        <li>
+          <img
+            src="./assets/images/icon2.png"
+            alt=""
+            onclick="imgSlider('thumb2.png'); changeCircleColor('#00a4c6')"
+          />
+        </li>
+        <li>
+          <img
+            src="./assets/images/icon3.png"
+            alt=""
+            onclick="imgSlider('thumb3.png'); changeCircleColor('#85bb65')"
+          />
+        </li>
+      </ul>
+      <!-- <ul class="sci">
+        <li><a href=""></a></li>
+      </ul> -->
+    </section>
+    <script type="text/javascript">
+      function imgSlider(anything) {
+        document.querySelector(".flood-watch").src =
+          "./assets/images/" + anything;
+      }
+
+      function changeCircleColor(color) {
+        const circle = document.querySelector(".circle");
+        const spanTitle = document.querySelector(".content .textBox h2 span");
+        const signUpbtn = document.querySelector(".content .textBox a");
+        circle.style.background = color;
+        spanTitle.style.color = color;
+        signUpbtn.style.background = color;
+      }
+    </script>
+  </body>
+</html>

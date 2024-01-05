@@ -1,13 +1,13 @@
 const SerialPort = require("serialport");
 const admin = require("firebase-admin");
 const nodemailer = require("nodemailer");
+require("dotenv").config();
 
 const serviceAccount = require("./flood-watch-614bb-firebase-adminsdk-wefl6-361c59d088.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL:
-    "https://flood-watch-614bb-default-rtdb.asia-southeast1.firebasedatabase.app/",
+  databaseURL: process.env.FIREBASE_DATABASE_URL,
 });
 
 const db = admin.database();
@@ -104,8 +104,8 @@ usersRef.once("value", (snapshot) => {
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "jesrielledesma@gmail.com",
-    pass: "iayd mdwa epun polc",
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
   },
 });
 

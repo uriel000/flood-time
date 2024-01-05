@@ -94,6 +94,16 @@
   text-align: center;
 }
 
+.form h1 a {
+  text-decoration: none;
+  color: var(--pink);
+  cursor: pointer;
+}
+
+.form h1 a .title:hover {
+  color: var(--blue);
+}
+
 .form h1 .title {
   font-size: 3.5rem;
 }
@@ -763,37 +773,43 @@ nav ul li:nth-of-type(5) a:hover {
   background-color: pink;
 }
 
-.flood-level-table .label-status span {
+.label-status span {
   font-weight: bold;
 }
-
-.flood-level-table .label-status .patv,
-.flood-level-table .label-status .nplv,
-.flood-level-table .label-status .npatv {
+.label-status .safe,
+.label-status .patv,
+.label-status .nplv,
+.label-status .npatv {
   display: flex;
   align-items: center;
   margin-bottom: 0.5rem;
 }
 
-.flood-level-table .label-status .patv p,
-.flood-level-table .label-status .nplv p,
-.flood-level-table .label-status .npatv p {
+.label-status .safe p,
+.label-status .patv p,
+.label-status .nplv p,
+.label-status .npatv p {
   margin-bottom: 0;
 }
 
-.flood-level-table .label-status .patv .color {
+.label-status .safe .color {
+  background-color: #87ceeb;
+}
+
+.label-status .patv .color {
   background-color: #d0f0c0;
 }
-.flood-level-table .label-status .nplv .color {
+.label-status .nplv .color {
   background-color: #fdfd96;
 }
-.flood-level-table .label-status .npatv .color {
+.label-status .npatv .color {
   background-color: #ff6347;
 }
 
-.flood-level-table .label-status .patv .color,
-.flood-level-table .label-status .nplv .color,
-.flood-level-table .label-status .npatv .color {
+.label-status .safe .color,
+.label-status .patv .color,
+.label-status .nplv .color,
+.label-status .npatv .color {
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
@@ -913,17 +929,13 @@ nav ul li:nth-of-type(5) a:hover {
     color: var(--white);
   }
   .form {
-    height: 75%;
     margin: 5rem;
-    background-color: var(--white);
+    background-color: var(--dark);
     padding: 3rem;
     border-radius: var(--radius);
-    color: var(--dark);
+    color: var(--white);
     position: relative;
-    opacity: 0.95;
-  }
-  .login-container .form {
-    height: 50%;
+    opacity: 0.85;
   }
 
   .flood-information .top i,

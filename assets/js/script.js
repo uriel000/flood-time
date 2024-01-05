@@ -236,7 +236,9 @@ const safetyRouteMap = (allSensors) => {
             let path = arr[1]["stringPath"];
             let coord = arr[1]["coordinates"];
             let height = oneSensorArray[1]["height"];
-            createPolyline(station, path, height, coord);
+            let actDate = convertDateTime(oneSensorArray[1]["date"]);
+
+            createPolyline(station, path, height, coord, actDate);
           }
         });
       } else {
@@ -246,7 +248,7 @@ const safetyRouteMap = (allSensors) => {
   });
 };
 
-const createPolyline = (station, path, height, coord) => {
+const createPolyline = (station, path, height, coord, actDate) => {
   let statusColor = null;
   let message = "";
   const flattenedCoordinates = coord.map((innerArray) =>
@@ -255,16 +257,16 @@ const createPolyline = (station, path, height, coord) => {
   if (height >= 20.32 && height < 33.02) {
     statusColor = "#d0f0c0";
 
-    message = `${station}:<br/><span style="color:#2e8b57">It is safe to travel here.<br/>Light flooding.</span>`;
+    message = `${station}:<br/><span style="color:#2e8b57">It is safe to travel here.<br/>Light flooding.</span><i>${actDate}<i/>`;
   } else if (height >= 33.02 && height < 66.04) {
     statusColor = "#fdfd96";
-    message = `${station}:<br/><span style="color:#ffd800">It is not safe to travel here<br/> for light vehicles.<br/>Moderately high flooding.</span>`;
+    message = `${station}:<br/><span style="color:#ffd800">It is not safe to travel here<br/> for light vehicles.<br/>Moderately high flooding.</span><i>${actDate}<i/>`;
   } else if (height >= 66.04) {
     statusColor = "#ff6347";
-    message = `${station}:<br/><span style="color:#ff6347">It is not safe to travel here.<br/> High level of flooding.</span>`;
+    message = `${station}:<br/><span style="color:#ff6347">It is not safe to travel here.<br/> High level of flooding.</span><i>${actDate}<i/>`;
   } else {
     statusColor = "#87ceeb";
-    message = `${station}:<br/><span style="color:#87ceeb">It is safe to travel here. <br/> No flooding.</span>`;
+    message = `${station}:<br/><span style="color:#87ceeb">It is safe to travel here. <br/> No flooding.</span><i>${actDate}<i/>`;
   }
   let poly = L.polyline([path], {
     color: statusColor,

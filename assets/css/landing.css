@@ -1,0 +1,221 @@
+@import url("https://fonts.googleapis.com/css2?family=Shrikhand&family=Space+Mono:wght@400;700&display=swap");
+
+:root {
+  --first: "Shrikhand", cursive;
+  --second: "Space Mono", monospace;
+  --radius: 10px;
+  --white: #ffff;
+  --blue: #00a4c6;
+  --dark: #0e1735;
+  --pink: #f9aaa6;
+  --shadow: 4px 4px 8px -1px rgba(0, 0, 0, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--second);
+  font-size: 1rem;
+}
+
+section {
+  position: absolute;
+  width: 100%;
+  min-height: 100vh;
+  padding: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+}
+
+header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+header .logo {
+  position: relative;
+  min-width: 80px;
+}
+header ul {
+  position: relative;
+  display: flex;
+}
+
+header ul li {
+  list-style: none;
+}
+
+header ul li a {
+  display: inline-block;
+  color: var(--dark);
+  font-weight: 400;
+  font-size: 1.4rem;
+  margin-left: 40px;
+  text-decoration: none;
+}
+
+header ul li a:hover {
+  text-decoration: underline;
+  color: #f9aaa6;
+}
+
+.content {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.content .textBox {
+  position: relative;
+  max-width: 600px;
+}
+
+.content .textBox h2 {
+  color: #0e1735;
+  font-size: 2em;
+  line-height: 1.4em;
+  font-weight: 500;
+}
+
+.content .textBox h2 span {
+  color: #f9aaa6;
+  font-size: 1.2em;
+  font-weight: 900;
+}
+
+.content .textBox p {
+  color: var(--dark);
+}
+
+.content .textBox a {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 8px 20px;
+  background: var(--pink);
+  color: #fff;
+  border-radius: 40px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-decoration: none;
+  box-shadow: var(--shadow);
+}
+
+.content .imgBox {
+  width: 600px;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 50px;
+  align-items: center;
+}
+
+.content .imgBox img {
+  max-width: 600px;
+  box-shadow: var(--shadow);
+}
+
+.thumb {
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  display: flex;
+}
+
+.thumb li {
+  list-style: none;
+  display: inline-block;
+  margin: 0 20px;
+  cursor: pointer;
+  transform: rotate(-10deg);
+  transition: 0.5s;
+}
+
+.thumb li:hover {
+  transform: translateY(-15px);
+}
+
+.thumb li img {
+  max-width: 60px;
+}
+
+.circle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--pink);
+  clip-path: circle(900px at right 1000px);
+}
+
+@media (max-width: 1490px) {
+  .content .imgBox img {
+    max-width: 500px;
+  }
+}
+
+@media (max-width: 1350px) {
+  .content .imgBox img {
+    max-width: 450px;
+  }
+}
+
+@media (max-width: 1130px) {
+  .content .imgBox img {
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .content {
+    margin-top: 50px;
+    flex-direction: column;
+  }
+  .circle {
+    clip-path: circle(600px at right 800px);
+  }
+  .content .imgBox {
+    justify-content: center;
+    padding-bottom: 20px;
+  }
+}
+
+@media (max-width: 590px) {
+  .content .imgBox img {
+    max-width: 300px;
+  }
+  .content .imgBox {
+    max-width: 300px;
+  }
+  header {
+    padding: 10px 50px;
+  }
+
+  header ul li a {
+    font-size: 1rem;
+  }
+
+  .circle {
+    clip-path: circle(600px at right 900px);
+  }
+  section {
+    position: absolute;
+    width: 100%;
+    min-height: 100vh;
+    padding: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+  }
+}
