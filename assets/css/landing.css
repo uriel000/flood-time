@@ -91,6 +91,7 @@ header ul li a:hover {
   color: #f9aaa6;
   font-size: 1.2em;
   font-weight: 900;
+  font-family: var(--first);
 }
 
 .content .textBox p {

@@ -12,7 +12,7 @@ admin.initializeApp({
 
 const db = admin.database();
 const rootRef = db.ref("Sensors");
-const stationName = "VitoCruz";
+const stationName = "QuirinoAve";
 const dataRef = rootRef.child(stationName);
 // UnitedNations
 // VitoCruz
@@ -37,7 +37,7 @@ let sensorData = {};
 let oldSensorData = [0, 30];
 
 parser.on("data", function (data) {
-  let exactData = Math.abs(data - 70);
+  let exactData = Math.abs(data);
   console.log(exactData);
   data = parseInt(exactData);
   const status = getStatus(exactData);
