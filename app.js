@@ -12,7 +12,7 @@ admin.initializeApp({
 
 const db = admin.database();
 const rootRef = db.ref("Sensors");
-const stationName = "QuirinoAve";
+const stationName = "VitoCruz";
 const dataRef = rootRef.child(stationName);
 // UnitedNations
 // VitoCruz
@@ -34,13 +34,22 @@ const port = new SerialPort("COM4", {
 
 port.pipe(parser);
 let sensorData = {};
-let oldSensorData = [0, 30];
+let bufferSize = 10;
+let oldSensorData = new Array(bufferSize).fill(4);
+// let oldSensorData = [4, 4, 4];
 
 parser.on("data", function (data) {
   let exactData = Math.abs(data);
   console.log(exactData);
   data = parseInt(exactData);
   const status = getStatus(exactData);
+  let calcStdArray = [...oldSensorData];
+  calcStdArray.shift();
+  calcStdArray.push(exactData);
+  const stdDeviation = calculateStandardDeviation(calcStdArray);
+  console.log("Standard Deviation:", stdDeviation);
+  console.log("Indication:", stdDeviation < 2 ? "Low" : "High");
+  console.log("Data array: ", calcStdArray);
 
   sensorData = {
     height: exactData,
@@ -53,13 +62,15 @@ parser.on("data", function (data) {
     .then(() => {
       let oldie = oldSensorData[oldSensorData.length - 2];
       if (sensorData.height > oldie && sensorData.height >= 33.02) {
-        createEmail();
+        console.log("email sent");
+        // createEmail();
       }
       console.log("Added to the database!");
     })
     .catch((error) => {
       console.log(error.message);
     });
+  oldSensorData.shift();
   oldSensorData.push(sensorData.height);
 });
 
@@ -186,3 +197,13 @@ const createEmail = () => {
     }
   });
 };
+
+// Function to calculate standard deviation
+function calculateStandardDeviation(dataArray) {
+  const mean = dataArray.reduce((acc, val) => acc + val, 0) / dataArray.length;
+  const squaredDifferences = dataArray.map((val) => Math.pow(val - mean, 2));
+  const variance =
+    squaredDifferences.reduce((acc, val) => acc + val, 0) / dataArray.length;
+  const standardDeviation = Math.sqrt(variance);
+  return standardDeviation;
+}
