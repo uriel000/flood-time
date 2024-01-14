@@ -15,6 +15,25 @@
       integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
       crossorigin="anonymous"
     />
+    <!-- Datatables -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css"
+    />
+    <script defer src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script
+      defer
+      src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"
+    ></script>
+
+    <script
+      defer
+      src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"
+    ></script>
 
     <!-- font awesome cdn link -->
     <link
@@ -83,7 +102,7 @@
       </div>
       <div class="manage-user-container">
         <h1>Manage system users</h1>
-        <table id="userTable" class="table">
+        <table id="userTable" class="table table-striped" style="width: 100%">
           <thead>
             <tr>
               <th>Name</th>
@@ -390,6 +409,9 @@
       });
 
       signoutbutton.addEventListener("click", signout);
+    </script>
+    <script>
+      new DataTable("#userTable");
     </script>
     <script src="/assets/js/adminuser.js" type="module"></script>
   </body>

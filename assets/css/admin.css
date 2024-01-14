@@ -511,6 +511,7 @@ table th {
 table td {
   font-size: 1.3rem;
   text-align: center;
+  word-break: break-all;
 }
 
 table td:last-of-type {
