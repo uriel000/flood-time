@@ -71,7 +71,7 @@ streetOptions.addEventListener("change", async () => {
   const sensorsInDB = ref(database, `Sensors/${streetOptions.value}`);
   document.querySelector(
     "#headerTitle"
-  ).textContent = `${streetOptions.value}'s Historical Flood Data`;
+  ).textContent = `${streetOptions.value}'s 24 hour Flood Data`;
 
   const currentTime = new Date(); // Current time
 

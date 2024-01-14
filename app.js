@@ -243,7 +243,7 @@ const createSMS = async () => {
 
   const parameters = {
     apiKey: process.env.SEMAPHORE_API_KEY,
-    number: "09813756027, 09232769744",
+    number: "09813756027, 09178744999, 09194546663, 09477609828",
     message: message,
     sendername: "Flood-Watch",
   };
