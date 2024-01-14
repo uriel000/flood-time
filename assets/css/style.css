@@ -195,14 +195,6 @@ off-btn {
   height: 100vh;
 }
 
-.offcanvas-body {
-  display: flex;
-  align-items: center;
-  /* justify-content: center; */
-  margin-top: 10%;
-  flex-direction: column;
-}
-
 .offcanvas-body p,
 .offcanvas-body span {
   font-size: 1.2rem;
@@ -230,10 +222,11 @@ nav {
   justify-content: space-between;
   max-width: 1200px;
 }
-nav .nav-item a {
+nav .nav-item a,
+.offcanvas-body {
   text-decoration: none;
   color: var(--dark);
-  margin-left: 2.5rem;
+  margin: 1rem;
   font-size: 1.4rem !important;
 }
 
@@ -257,11 +250,16 @@ nav ul li:nth-of-type(5) a {
   text-align: center;
 }
 
-nav ul li:last-of-type a {
+nav ul li:last-of-type a,
+#signoutbutton {
   background-color: red;
   color: var(--white);
   border-radius: 20px;
   text-align: center;
+}
+
+#signoutbutton {
+  width: 100%;
 }
 
 nav ul li:last-of-type a:hover,
@@ -882,11 +880,6 @@ nav ul li:nth-of-type(5) a:hover {
   html {
     font-size: 70%;
   }
-
-  .nav-links {
-    display: flex;
-    flex-direction: column;
-  }
   .collapse li a:hover {
     background-color: var(--dark);
     color: var(--white);
@@ -973,11 +966,23 @@ nav ul li:nth-of-type(5) a:hover {
   .flood-information .top p {
     font-size: 1.2rem;
   }
+
+  .form #authenticationForm {
+    width: 100%;
+  }
 }
 
 @media (max-width: 400px) {
   .flood-container {
     margin-top: 170px;
+  }
+  .login-container,
+  .register-container {
+    width: 100%;
+  }
+  .login-container form,
+  .register-container form {
+    width: 100%;
   }
 }
 

@@ -70,14 +70,28 @@ let sensorsArray = [];
             const floodHeight = sensor[1]["height"];
             const indication = sensor[1]["indication"];
             const date = sensor[1]["date"];
-            createFloodTable(
-              sensorID,
-              sensorLoc,
-              sensorCoordinates,
-              sensorName,
-              floodHeight,
-              date
-            );
+            let difference = getTimeDifference(date);
+            if (difference["days"] >= 1 || difference["hours"] >= 12) {
+              createFloodTable(
+                sensorID,
+                sensorLoc,
+                sensorCoordinates,
+                sensorName,
+                floodHeight,
+                date,
+                "tableBody2"
+              );
+            } else {
+              createFloodTable(
+                sensorID,
+                sensorLoc,
+                sensorCoordinates,
+                sensorName,
+                floodHeight,
+                date,
+                "tableBody"
+              );
+            }
           });
         } else {
           createFloodTable(
@@ -86,7 +100,8 @@ let sensorsArray = [];
             sensorCoordinates,
             sensorName,
             "No Data",
-            null
+            null,
+            "tableBody"
           );
         }
       }
@@ -120,9 +135,10 @@ const createFloodTable = (
   sensorCoordinates,
   sensorName,
   floodHeight,
-  date
+  date,
+  tableNum
 ) => {
-  const table = document.getElementById("tableBody");
+  const table = document.getElementById(tableNum);
 
   let newRow = table.insertRow();
   let nameCell = newRow.insertCell(0);

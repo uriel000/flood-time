@@ -7,12 +7,13 @@ const serviceAccount = require("./flood-watch-614bb-firebase-adminsdk-wefl6-361c
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: process.env.FIREBASE_DATABASE_URL,
+  databaseURL:
+    "https://flood-watch-614bb-default-rtdb.asia-southeast1.firebasedatabase.app/",
 });
 
 const db = admin.database();
 const rootRef = db.ref("Sensors");
-const stationName = "VitoCruz";
+const stationName = "UnitedNations";
 const dataRef = rootRef.child(stationName);
 // UnitedNations
 // VitoCruz
@@ -24,7 +25,7 @@ const parser = new parsers.Readline({
   delimiter: "\r\n",
 });
 
-const port = new SerialPort("COM4", {
+const port = new SerialPort("COM5", {
   baudRate: 9600,
   dataBits: 8,
   parity: "none",
@@ -39,6 +40,9 @@ let oldSensorData = new Array(bufferSize).fill(4);
 // let oldSensorData = [4, 4, 4];
 
 parser.on("data", function (data) {
+  // let splitData = data.split(":");
+  // let stationNameId = splitData[0];
+  // let stationData = splitData[1];
   let exactData = Math.abs(data);
   console.log(exactData);
   data = parseInt(exactData);
@@ -55,6 +59,7 @@ parser.on("data", function (data) {
     height: exactData,
     date: Date(Date.now()),
     indication: status,
+    dispersion: stdDeviation,
   };
 
   dataRef
@@ -64,6 +69,7 @@ parser.on("data", function (data) {
       if (sensorData.height > oldie && sensorData.height >= 33.02) {
         console.log("email sent");
         // createEmail();
+        // createSMS();
       }
       console.log("Added to the database!");
     })
@@ -98,6 +104,7 @@ const getStatus = (data) => {
 
 const usersRef = db.ref("Users");
 let userEmails = [];
+let userNumbers = [];
 
 usersRef.once("value", (snapshot) => {
   const users = snapshot.val();
@@ -106,6 +113,7 @@ usersRef.once("value", (snapshot) => {
     Object.keys(users).forEach((userId) => {
       const user = users[userId];
       userEmails.push(user.email);
+      userNumbers.push(user.contact);
     });
   } else {
     console.log("No users found");
@@ -207,3 +215,69 @@ function calculateStandardDeviation(dataArray) {
   const standardDeviation = Math.sqrt(variance);
   return standardDeviation;
 }
+
+const createSMS = async () => {
+  const numberString = userNumbers.join(", ");
+  let height = sensorData.height;
+  let indication = sensorData.indication;
+  let date = convertDateTime(sensorData.date);
+  let alertMessage = "";
+  let detailMessage = "";
+
+  if (height >= 33.02 && height < 66.04) {
+    alertMessage = "Moderate Flooding";
+    detailMessage = "It is not safe to travel here for light vehicles.";
+  } else if (height >= 66.04) {
+    alertMessage = "High Flooding";
+    detailMessage = "It is not safe to travel here for all types of vehicles.";
+  }
+
+  let message = `
+    We want to alert you about the current flood situation at ${stationName}. As of ${date}.
+    Alert: ${alertMessage}
+    Flood Height: ${height} cm
+    Flood Level: ${indication}
+    Details: ${detailMessage}
+    Stay Safe, Flood-Watch Team
+  `;
+
+  const parameters = {
+    apiKey: process.env.SEMAPHORE_API_KEY,
+    number: "09813756027, 09232769744",
+    message: message,
+    sendername: "Flood-Watch",
+  };
+
+  try {
+    const response = await fetch("https://api.semaphore.co/api/v4/messages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams(parameters),
+    });
+    const output = await response.text();
+    console.log(output);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const convertDateTime = (time) => {
+  const today = new Date(time);
+
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  const formattedDate = today.toLocaleDateString("en-US", options);
+
+  // Get the hours and minutes from the Date object
+  var hour = today.getHours();
+  var minutes = today.getMinutes();
+
+  // Format the time
+  var ampm = hour >= 12 ? "pm" : "am";
+  hour = hour % 12;
+  hour = hour ? hour : 12;
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+  const exactDate = `${formattedDate} ${hour}:${minutes}${ampm}`;
+  return exactDate;
+};

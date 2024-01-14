@@ -86,6 +86,7 @@ streetOptions.addEventListener("change", async () => {
         const sensorData = arr[1]["height"];
         const sensorTime = new Date(arr[1]["date"]);
         const indication = arr[1]["indication"];
+        const dispersion = arr[1]["dispersion"];
 
         // Calculate the time difference in milliseconds
         const timeDifference = currentTime - sensorTime;
@@ -97,7 +98,8 @@ streetOptions.addEventListener("change", async () => {
             streetOptions.value,
             sensorData,
             indication,
-            sensorTime.toString()
+            sensorTime.toString(),
+            dispersion
           );
         }
       });
@@ -129,7 +131,8 @@ const createFloodTable = (
   streetName,
   sensorData,
   indication,
-  sensorTime
+  sensorTime,
+  dispersion
 ) => {
   const table = document.getElementById("tableBody");
 
@@ -140,6 +143,8 @@ const createFloodTable = (
   let indicationCell = newRow.insertCell(3);
   let statusCell = newRow.insertCell(4);
   let dateCell = newRow.insertCell(5);
+  let dispersionCell = newRow.insertCell(6);
+  let accuracy = newRow.insertCell(7);
 
   // newRow.id = sensorID;
   // newRow.setAttribute("flood-level-data-row", "flood-level-data");
@@ -149,6 +154,8 @@ const createFloodTable = (
   let toInches = sensorData * 0.393701;
   waterCellInch.innerHTML = Number(toInches.toFixed(2));
   indicationCell.innerHTML = indication;
+  dispersionCell.innerHTML = dispersion.toFixed(2);
+  accuracy.innerHTML = dispersion >= 2 ? "Inaccurate" : "Accurate";
 
   dateCell.innerHTML = convertDateTime(sensorTime);
 

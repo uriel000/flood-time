@@ -74,6 +74,12 @@ button {
   justify-content: space-between;
   margin: 1rem;
 }
+.report-top {
+  text-align: center;
+  font-size: 1.5rem;
+  background-color: #0e1735;
+  color: var(--white);
+}
 
 .tools {
   display: flex;
