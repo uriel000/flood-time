@@ -82,13 +82,15 @@ streetOptions.addEventListener("change", async () => {
         const sensorData = arr[1]["height"];
         const sensorTime = arr[1]["date"];
         const indication = arr[1]["indication"];
+        const standardDeviation = arr[1]["dispersion"];
 
         createFloodTable(
           sensorID,
           streetOptions.value,
           sensorData,
           indication,
-          sensorTime
+          sensorTime,
+          standardDeviation
         );
       });
     } else {
@@ -119,7 +121,8 @@ const createFloodTable = (
   streetName,
   sensorData,
   indication,
-  sensorTime
+  sensorTime,
+  standardDeviation
 ) => {
   const table = document.getElementById("tableBody");
 
@@ -130,6 +133,8 @@ const createFloodTable = (
   let indicationCell = newRow.insertCell(3);
   let statusCell = newRow.insertCell(4);
   let dateCell = newRow.insertCell(5);
+  let standardDeviationCell = newRow.insertCell(6);
+  let accuracyCell = newRow.insertCell(7);
 
   // newRow.id = sensorID;
   // newRow.setAttribute("flood-level-data-row", "flood-level-data");
@@ -139,6 +144,14 @@ const createFloodTable = (
   let toInches = sensorData * 0.393701;
   waterCellInch.innerHTML = Number(toInches.toFixed(2));
   indicationCell.innerHTML = indication;
+  standardDeviationCell.innerHTML =
+    standardDeviation != null ? standardDeviation.toFixed(2) : "No data";
+  accuracyCell.innerHTML =
+    standardDeviation >= 2
+      ? "Inaccurate"
+      : standardDeviation > 0 && standardDeviation < 2
+      ? "Accurate"
+      : "No data";
 
   dateCell.innerHTML = convertDateTime(sensorTime);
 

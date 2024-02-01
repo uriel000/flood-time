@@ -1,6 +1,8 @@
 const SerialPort = require("serialport");
 const admin = require("firebase-admin");
 const nodemailer = require("nodemailer");
+const axios = require("axios");
+
 require("dotenv").config();
 
 const serviceAccount = require("./flood-watch-614bb-firebase-adminsdk-wefl6-361c59d088.json");
@@ -13,8 +15,9 @@ admin.initializeApp({
 
 const db = admin.database();
 const rootRef = db.ref("Sensors");
-const stationName = "UnitedNations";
-const dataRef = rootRef.child(stationName);
+// const stationName = "UnitedNations";
+let stationName = "";
+// const dataRef = rootRef.child(stationName);
 // UnitedNations
 // VitoCruz
 // QuirinoAve
@@ -25,7 +28,7 @@ const parser = new parsers.Readline({
   delimiter: "\r\n",
 });
 
-const port = new SerialPort("COM5", {
+const port = new SerialPort("COM6", {
   baudRate: 9600,
   dataBits: 8,
   parity: "none",
@@ -40,10 +43,16 @@ let oldSensorData = new Array(bufferSize).fill(4);
 // let oldSensorData = [4, 4, 4];
 
 parser.on("data", function (data) {
-  // let splitData = data.split(":");
-  // let stationNameId = splitData[0];
-  // let stationData = splitData[1];
-  let exactData = Math.abs(data);
+  let splitData = data.split(":");
+  let stationNameId = splitData[0];
+  stationName =
+    stationNameId === "0001"
+      ? "UnitedNations"
+      : stationNameId === "0002"
+      ? "PedroGil"
+      : "None";
+  let stationData = splitData[1];
+  let exactData = Math.abs(stationData);
   console.log(exactData);
   data = parseInt(exactData);
   const status = getStatus(exactData);
@@ -61,15 +70,19 @@ parser.on("data", function (data) {
     indication: status,
     dispersion: stdDeviation,
   };
+  const dataRef = rootRef.child(stationName);
 
   dataRef
     .push(sensorData)
     .then(() => {
       let oldie = oldSensorData[oldSensorData.length - 2];
-      if (sensorData.height > oldie && sensorData.height >= 33.02) {
-        console.log("email sent");
-        // createEmail();
-        // createSMS();
+      let maxNum = Math.max(...oldSensorData);
+      if (sensorData.height > maxNum) {
+        if (sensorData.height > oldie && sensorData.height >= 33.02) {
+          console.log("SMS sent");
+          // createEmail();
+          // createSMS();
+        }
       }
       console.log("Added to the database!");
     })
@@ -232,34 +245,35 @@ const createSMS = async () => {
     detailMessage = "It is not safe to travel here for all types of vehicles.";
   }
 
-  let message = `
-    We want to alert you about the current flood situation at ${stationName}. As of ${date}.
+  let message = `We want to alert you about the current flood situation at ${stationName}. As of ${date}.
+
     Alert: ${alertMessage}
     Flood Height: ${height} cm
     Flood Level: ${indication}
     Details: ${detailMessage}
+
     Stay Safe, Flood-Watch Team
   `;
 
-  const parameters = {
-    apiKey: process.env.SEMAPHORE_API_KEY,
-    number: "09813756027, 09178744999, 09194546663, 09477609828",
-    message: message,
-    sendername: "Flood-Watch",
-  };
+  // const parameters = {
+  //   apikey: process.env.SEMAPHORE_API_KEY,
+  //   number: "09813756027, 09178744999, 09194546663, 09477609828",
+  //   message: message,
+  //   sendername: "Flood-Watch",
+  // };
+
+  const apiUrl = "https://api.semaphore.co/api/v4/messages";
 
   try {
-    const response = await fetch("https://api.semaphore.co/api/v4/messages", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: new URLSearchParams(parameters),
+    const response = await axios.post(apiUrl, {
+      apikey: "fcd953ba83b3804747db383dc52d7ffe",
+      message: message,
+      number: "09813756027, 09194546663, 09477609828", // Replace with the recipient's phone number
     });
-    const output = await response.text();
-    console.log(output);
+
+    console.log("SMS sent successfully:", response.data);
   } catch (error) {
-    console.error(error);
+    console.error("Error sending SMS:", error.message);
   }
 };
 
